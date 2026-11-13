@@ -1,7 +1,0 @@
-#reflow-pill{position:fixed;bottom:16px;right:16px;z-index:2147483647;display:flex;align-items:center;gap:0;height:24px;min-width:44px;overflow:hidden;background:rgba(9,9,11,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(63,63,70,.5);border-radius:6px;font-family:"SF Mono","Menlo","Consolas",monospace;font-size:11px;font-weight:500;color:rgba(161,161,170,.9);letter-spacing:.3px;pointer-events:none;user-select:none;opacity:.55;transition:opacity .3s;animation:rf-in .3s ease}
-#reflow-pill:hover{opacity:.9}
-#reflow-pill.rf-imminent{opacity:.85;border-color:rgba(161,161,170,.3)}
-#reflow-bar{position:absolute;left:0;bottom:0;height:2px;width:0%;background:rgba(161,161,170,.35);border-radius:0 0 6px 6px;transition:width .3s linear}
-#reflow-pill.rf-imminent #reflow-bar{background:rgba(244,244,245,.5)}
-#reflow-text{padding:0 10px;line-height:24px}
-@keyframes rf-in{from{opacity:0;transform:translateY(6px) scale(.95)}to{opacity:.55;transform:translateY(0) scale(1)}}

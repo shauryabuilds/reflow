@@ -1,20 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Reflow",
+  "name": "Reflow — Auto Refresh & Page Monitor",
   "short_name": "Reflow",
-  "version": "1.0.0",
-  "description": "Auto-refresh any page. One click. No setup.",
-  "permissions": [
-    "alarms",
-    "storage",
-    "activeTab",
-    "scripting",
-    "tabs",
-    "notifications"
-  ],
+  "version": "2.0.0",
+  "description": "Auto-refresh any page in one click. Get alerted when a word appears. Never lose what you're typing.",
+  "minimum_chrome_version": "116",
+  "permissions": ["alarms", "storage", "tabs", "scripting", "notifications", "offscreen"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
+    "default_title": "Reflow (Alt+Shift+R to toggle)",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -22,17 +17,13 @@
       "128": "icons/icon128.png"
     }
   },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["content.css"],
-      "run_at": "document_end"
+  "background": { "service_worker": "background.js" },
+  "commands": {
+    "toggle-refresh": {
+      "suggested_key": { "default": "Alt+Shift+R" },
+      "description": "Start / stop refreshing the current tab"
     }
-  ],
+  },
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",

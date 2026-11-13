@@ -14,20 +14,21 @@
 </head>
 <body>
 <h1>Reflow — Privacy Policy</h1>
-<div class="date">Effective date: March 24, 2026</div>
+<div class="date">Effective date: November 13, 2026</div>
 <p>Reflow is a browser extension that automatically refreshes web pages at user-configured intervals. This policy explains how Reflow handles your data.</p>
 <h2>Data Collection</h2>
 <p>Reflow does not collect, transmit, or share any personal data. The extension operates entirely within your browser.</p>
 <h2>Data Storage</h2>
-<p>Reflow stores the following data locally on your device using Chrome's built-in storage API (chrome.storage.local):</p>
-<p>— Your refresh interval preferences per website domain<br>— Active refresh timer states (which tabs are being refreshed)<br>— Option settings (hard refresh, scroll preservation, randomization, notifications)</p>
+<p>Reflow stores the following data locally on your device using Chrome's built-in storage API:</p>
+<p>— Your settings per website domain (interval, alert text, options), in chrome.storage.local<br>— Active refresh timer states (which tabs are being refreshed), in chrome.storage.session, which is cleared when you close the browser</p>
 <p>This data never leaves your browser. It is not sent to any server, third-party service, or analytics platform.</p>
 <h2>Scroll Position</h2>
 <p>When "Keep scroll" is enabled, Reflow temporarily saves your scroll position using the browser's sessionStorage before each refresh and restores it after. This data is automatically cleared when you close the tab.</p>
 <h2>Website Content</h2>
-<p>Reflow does not read, analyze, collect, or transmit any content from the web pages you visit. The extension only reloads pages and displays a countdown indicator.</p>
+<p>Reflow only runs on tabs where you have turned refreshing on. It does not collect or transmit any content from the web pages you visit.</p>
+<p>If you set a keyword alert (for example "In stock"), Reflow checks the visible text of that tab for your keyword. The check happens entirely in your browser. Page text is never stored or sent anywhere. Smart pause looks only at whether you are typing or have text selected, never at what you typed.</p>
 <h2>Permissions</h2>
-<p>Reflow requests browser permissions solely to provide its core functionality: scheduling refresh timers (alarms), saving your preferences (storage), reloading pages (scripting, tabs), and showing the in-page countdown (host permissions). No permission is used for data collection purposes.</p>
+<p>Reflow requests browser permissions solely to provide its core functionality: scheduling refresh timers (alarms), saving your preferences (storage), reloading pages and reading the tab address for site memory (tabs), running the page helper on tabs you turned on (scripting, host permissions), keyword alerts (notifications) and the alert chime (offscreen). No permission is used for data collection purposes.</p>
 <h2>Third-Party Services</h2>
 <p>Reflow does not integrate with any third-party services, analytics tools, advertising networks, or external servers.</p>
 <h2>Changes</h2>

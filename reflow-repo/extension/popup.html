@@ -1,86 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=360"><title>Reflow</title>
+<meta charset="UTF-8"><title>Reflow</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#09090b;--bg-1:#0f0f12;--bg-2:#18181b;--bg-3:#27272a;--border:#27272a;--border-l:#3f3f46;--tx:#fafafa;--tx-1:#a1a1aa;--tx-2:#71717a;--tx-3:#52525b;--green:#4ade80;--red:#f87171;--mono:'IBM Plex Mono','SF Mono','Consolas',monospace;--sans:'IBM Plex Sans',-apple-system,system-ui,sans-serif;--radius:6px}
-body{width:320px;background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased;overflow-y:auto;max-height:520px}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px;border-bottom:1px solid var(--border)}
-.hdr-left{display:flex;align-items:center;gap:8px}
-.logo{width:18px;height:18px;border-radius:4px;background:var(--tx);display:flex;align-items:center;justify-content:center}
-.logo svg{width:12px;height:12px}
-.wordmark{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:-.3px}
-.hdr-badge{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--tx-2);background:var(--bg-2);border:1px solid var(--border);padding:2px 7px;border-radius:3px;display:none}
-.hdr-badge.vis{display:inline-block}
-.url-bar{display:flex;align-items:center;gap:7px;padding:9px 16px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--tx-2);min-height:34px}
-.dot{width:5px;height:5px;border-radius:50%;background:var(--tx-3);flex-shrink:0;transition:background .3s,box-shadow .3s}
-.dot.on{background:var(--green);box-shadow:0 0 6px rgba(74,222,128,.35)}
-.url-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.live{display:none;padding:20px 16px 16px;text-align:center;border-bottom:1px solid var(--border)}
-.live.vis{display:block;animation:fadeUp .2s ease}
-.live-time{font-family:var(--mono);font-size:40px;font-weight:500;letter-spacing:-1.5px;line-height:1;margin-bottom:8px;font-variant-numeric:tabular-nums}
-.live-sub{font-family:var(--mono);font-size:11px;color:var(--tx-3);display:flex;align-items:center;justify-content:center;gap:12px}
-.live-sub span{color:var(--tx-2)}
+:root{
+  --bg:#09090b;--bg-1:#111114;--bg-2:#18181b;--bg-3:#27272a;--border:#232327;--border-l:#3f3f46;
+  --tx:#fafafa;--tx-1:#a1a1aa;--tx-2:#71717a;--tx-3:#52525b;--inv:#09090b;
+  --green:#4ade80;--green-bg:rgba(74,222,128,.08);--red:#f87171;--amber:#fbbf24;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",sans-serif;--r:7px;
+  color-scheme:dark
+}
+@media (prefers-color-scheme:light){:root{
+  --bg:#f6f5f0;--bg-1:#ffffff;--bg-2:#efeee8;--bg-3:#e2e1da;--border:#e4e3dc;--border-l:#cfcec6;
+  --tx:#0a0a0a;--tx-1:#3f3f46;--tx-2:#71717a;--tx-3:#a1a1aa;--inv:#f6f5f0;
+  --green:#16a34a;--green-bg:rgba(22,163,74,.08);--red:#dc2626;--amber:#b45309;color-scheme:light}}
+html,body{background:var(--bg)}
+body{width:320px;color:var(--tx);font:13px/1.35 var(--sans);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 11px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:8px}
+.brand svg{width:18px;height:18px;fill:var(--tx)}
+.wordmark{font:600 14px var(--mono);letter-spacing:-.4px}
+.count{font:500 10px var(--mono);color:var(--tx-1);background:var(--bg-2);border:1px solid var(--border);padding:3px 8px;border-radius:20px;cursor:pointer;display:none}
+.count.vis{display:inline-flex;align-items:center;gap:5px}
+.count:hover{border-color:var(--border-l)}
+.count::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green)}
+.url{display:flex;align-items:center;gap:7px;padding:9px 16px;border-bottom:1px solid var(--border);font:11px var(--mono);color:var(--tx-2);min-height:34px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--tx-3);flex:none;transition:.3s}
+.dot.on{background:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+.url span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hide{display:none!important}
+
+.alert{margin:12px 16px 0;padding:10px 12px;border:1px solid var(--green);background:var(--green-bg);border-radius:var(--r);display:flex;gap:10px;align-items:center}
+.alert b{display:block;font-weight:600;color:var(--green)}
+.alert small{font:10px var(--mono);color:var(--tx-2)}
+.alert div{flex:1;min-width:0}
+
+.live{padding:20px 16px 16px;text-align:center;border-bottom:1px solid var(--border);animation:up .2s ease}
+.time{font:500 42px/1 var(--mono);letter-spacing:-1.5px;font-variant-numeric:tabular-nums;margin-bottom:8px}
+.time.paused{color:var(--amber);font-size:28px;letter-spacing:-.5px;padding:7px 0}
+.sub{font:11px var(--mono);color:var(--tx-2)}
+.sub em{font-style:normal;color:var(--tx-1)}
+.watching{margin-top:8px;font:11px var(--mono);color:var(--tx-2)}
+.watching em{font-style:normal;color:var(--tx)}
 .track{margin-top:14px;height:2px;background:var(--bg-3);border-radius:1px;overflow:hidden}
-.track-fill{height:100%;width:0%;background:var(--tx-2);border-radius:1px;transition:width .3s linear}
-.setup{padding:14px 16px 6px}
-.label{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--tx-3);margin-bottom:8px}
+.fill{height:100%;width:0;background:var(--tx-2);transition:width .25s linear}
+
+.setup{padding:14px 16px 4px}
+.label{font:500 10px var(--mono);letter-spacing:.8px;text-transform:uppercase;color:var(--tx-3);margin-bottom:7px;display:flex;justify-content:space-between}
 .presets{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:12px}
-.p-btn{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--radius);padding:9px 2px;cursor:pointer;text-align:center;transition:all .1s;font-family:var(--mono)}
-.p-btn:hover{background:var(--bg-2);border-color:var(--border-l)}
-.p-btn:active{transform:scale(.96)}
-.p-btn.sel{background:var(--tx);border-color:var(--tx)}
-.p-btn .num{font-size:15px;font-weight:600;color:var(--tx);line-height:1.1}
-.p-btn .unit{font-size:9px;font-weight:500;color:var(--tx-2);text-transform:uppercase;letter-spacing:.5px}
-.p-btn.sel .num{color:var(--bg)}.p-btn.sel .unit{color:var(--bg-3)}
-.custom-row{display:flex;gap:4px;margin-bottom:12px}
-.c-input{flex:1;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;font-family:var(--mono);font-size:13px;color:var(--tx);outline:none;transition:border-color .15s}
-.c-input:focus{border-color:var(--border-l)}.c-input::placeholder{color:var(--tx-3)}
-.c-sel{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--radius);padding:8px 8px 8px 10px;font-family:var(--mono);font-size:11px;color:var(--tx-1);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:56px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%2371717a' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M2.5 4l2.5 2.5L7.5 4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;padding-right:20px}
-.opts{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
-.opt{display:flex;align-items:center;gap:5px;background:var(--bg-1);border:1px solid var(--border);border-radius:4px;padding:5px 9px;font-size:11px;font-weight:500;color:var(--tx-2);cursor:pointer;user-select:none;transition:all .1s}
+.p{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r);padding:8px 2px 7px;cursor:pointer;font-family:var(--mono);transition:background .1s,border-color .1s}
+.p:hover{background:var(--bg-2);border-color:var(--border-l)}
+.p:active{transform:scale(.96)}
+.p.sel{background:var(--tx);border-color:var(--tx)}
+.p b{display:block;font-size:15px;font-weight:600;line-height:1.1}
+.p i{display:block;font:500 9px var(--mono);font-style:normal;color:var(--tx-2);text-transform:uppercase;letter-spacing:.5px}
+.p.sel b{color:var(--inv)}.p.sel i{color:var(--tx-3)}
+.row{display:flex;gap:4px;margin-bottom:12px}
+.in{flex:1;min-width:0;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;font:12px var(--mono);color:var(--tx);outline:none}
+.in:focus{border-color:var(--border-l)}.in::placeholder{color:var(--tx-3)}
+.sel-box{background:var(--bg-1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='none' stroke='%2371717a' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M2.5 4l2.5 2.5L7.5 4'/%3E%3C/svg%3E") no-repeat right 7px center;border:1px solid var(--border);border-radius:var(--r);padding:8px 22px 8px 9px;font:11px var(--mono);color:var(--tx-1);outline:none;cursor:pointer;appearance:none}
+.sel-box:focus{border-color:var(--border-l)}
+.opts{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+.opt{display:flex;align-items:center;gap:6px;background:var(--bg-1);border:1px solid var(--border);border-radius:5px;padding:5px 9px;font-size:11px;font-weight:500;color:var(--tx-2);cursor:pointer;user-select:none}
 .opt:hover{border-color:var(--border-l);color:var(--tx-1)}
 .opt.on{background:var(--bg-2);border-color:var(--border-l);color:var(--tx)}
-.opt-dot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.4}
-.opt.on .opt-dot{opacity:1}
+.opt::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.35}
+.opt.on::before{opacity:1;background:var(--green)}
+
 .act-wrap{padding:0 16px 14px}
-.act{width:100%;height:40px;background:var(--tx);color:var(--bg);border:none;border-radius:var(--radius);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .12s}
-.act:hover{opacity:.9}.act:active{transform:scale(.98)}
-.act.stop{background:var(--bg-1);color:var(--red);border:1px solid rgba(248,113,113,.2)}
-.act.stop:hover{border-color:rgba(248,113,113,.35)}
-.ftr{padding:10px 16px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--tx-3);display:flex;justify-content:space-between;align-items:center}
-body::-webkit-scrollbar{width:3px}body::-webkit-scrollbar-track{background:0 0}body::-webkit-scrollbar-thumb{background:var(--bg-3);border-radius:3px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.act{width:100%;height:40px;background:var(--tx);color:var(--inv);border:none;border-radius:var(--r);font-weight:600;cursor:pointer;transition:opacity .12s}
+.act:hover{opacity:.9}.act:active{transform:scale(.985)}
+.act:disabled{opacity:.35;cursor:default;transform:none}
+.act.stop{background:var(--bg-1);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 30%,transparent)}
+.ghost{background:none;border:1px solid var(--border-l);border-radius:5px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer}
+.ghost:hover{background:var(--bg-2)}
+
+.list{border-top:1px solid var(--border);padding:6px 0;max-height:150px;overflow-y:auto}
+.item{display:flex;align-items:center;gap:8px;padding:6px 16px;cursor:pointer;font:11px var(--mono);color:var(--tx-1)}
+.item:hover{background:var(--bg-1)}
+.item img{width:14px;height:14px;flex:none;border-radius:3px}
+.item .h{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .t{color:var(--tx-2);font-variant-numeric:tabular-nums}
+.item .x{border:none;background:none;color:var(--tx-3);cursor:pointer;font-size:14px;line-height:1;padding:0 2px}
+.item .x:hover{color:var(--red)}
+
+.ftr{padding:9px 16px;border-top:1px solid var(--border);font:10px var(--mono);color:var(--tx-3);display:flex;justify-content:space-between;gap:8px;white-space:nowrap}
+.ftr>span:first-child{overflow:hidden;text-overflow:ellipsis}
+.ftr kbd{font:inherit;color:var(--tx-2);border:1px solid var(--border);border-radius:3px;padding:0 4px;cursor:pointer}
+@keyframes up{from{opacity:0;transform:translateY(-4px)}}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="hdr-left"><div class="logo"><svg viewBox="0 0 12 12" fill="none" stroke="#09090b" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 6a4.5 4.5 0 0 1 8-2.8"/><path d="M10.5 6a4.5 4.5 0 0 1-8 2.8"/><path d="M7.8 1.2L9.5 3.2 7.5 5"/><path d="M4.2 7L2.5 8.8 4.5 10.8"/></svg></div><span class="wordmark">reflow</span></div><span class="hdr-badge" id="badge"></span></div>
-<div class="url-bar"><span class="dot" id="dot"></span><span class="url-text" id="urlText">—</span></div>
-<div class="live" id="livePanel"><div class="live-time" id="liveTime">0:00</div><div class="live-sub">every <span id="liveEvery">—</span><span>·</span><span id="liveCount">0</span> refreshes</div><div class="track"><div class="track-fill" id="trackFill"></div></div></div>
-<div class="setup" id="setupPanel">
-<div class="label">Interval</div>
-<div class="presets" id="presets">
-<button class="p-btn" data-s="5"><div class="num">5</div><div class="unit">sec</div></button>
-<button class="p-btn" data-s="10"><div class="num">10</div><div class="unit">sec</div></button>
-<button class="p-btn" data-s="30"><div class="num">30</div><div class="unit">sec</div></button>
-<button class="p-btn" data-s="60"><div class="num">1</div><div class="unit">min</div></button>
-<button class="p-btn" data-s="120"><div class="num">2</div><div class="unit">min</div></button>
-<button class="p-btn" data-s="300"><div class="num">5</div><div class="unit">min</div></button>
-<button class="p-btn" data-s="600"><div class="num">10</div><div class="unit">min</div></button>
-<button class="p-btn" data-s="1800"><div class="num">30</div><div class="unit">min</div></button>
+<div class="hdr">
+  <div class="brand">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M6.38 33.26A46.72 46.72 0 0 1 92.89 31.48L99.11 25.89L96.88 49.55L72.77 49.55L81.23 41.95A32.25 32.25 0 0 0 22.43 33.26ZM93.62 66.74A46.72 46.72 0 0 1 7.11 68.52L.89 74.11L3.12 50.45L27.23 50.45L18.77 58.05A32.25 32.25 0 0 0 77.57 66.74Z"/></svg>
+    <span class="wordmark">reflow</span>
+  </div>
+  <button class="count" id="count" title="Show all refreshing tabs"></button>
 </div>
-<div class="label">Custom</div>
-<div class="custom-row"><input type="number" class="c-input" id="cVal" placeholder="e.g. 45" min="1" step="1"><select class="c-sel" id="cUnit"><option value="1">sec</option><option value="60" selected>min</option><option value="3600">hr</option></select></div>
-<div class="label">Options</div>
-<div class="opts">
-<div class="opt on" id="oHard" data-k="hardRefresh"><span class="opt-dot"></span>Hard refresh</div>
-<div class="opt on" id="oScroll" data-k="preserveScroll"><span class="opt-dot"></span>Keep scroll</div>
-<div class="opt" id="oRand" data-k="randomize"><span class="opt-dot"></span>Randomize</div>
-<div class="opt" id="oNotify" data-k="notify"><span class="opt-dot"></span>Notify</div>
-</div></div>
-<div class="act-wrap"><button class="act" id="actionBtn">Start</button></div>
-<div class="ftr"><span id="ftrText">Select interval to begin</span></div>
+<div class="url"><span class="dot" id="dot"></span><span id="url">—</span></div>
+
+<div class="alert hide" id="alert">
+  <div><b id="alertTitle"></b><small id="alertWhen"></small></div>
+  <button class="ghost" id="resume">Dismiss</button>
+</div>
+
+<div class="live hide" id="live">
+  <div class="time" id="time">0</div>
+  <div class="sub">every <em id="every">—</em> · <em id="refreshes">0</em> refreshes</div>
+  <div class="watching hide" id="watching"></div>
+  <div class="track"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="setup" id="setup">
+  <div class="label">Interval</div>
+  <div class="presets" id="presets">
+    <button class="p" data-s="5"><b>5</b><i>sec</i></button>
+    <button class="p" data-s="10"><b>10</b><i>sec</i></button>
+    <button class="p" data-s="30"><b>30</b><i>sec</i></button>
+    <button class="p" data-s="60"><b>1</b><i>min</i></button>
+    <button class="p" data-s="120"><b>2</b><i>min</i></button>
+    <button class="p" data-s="300"><b>5</b><i>min</i></button>
+    <button class="p" data-s="900"><b>15</b><i>min</i></button>
+    <button class="p" data-s="1800"><b>30</b><i>min</i></button>
+  </div>
+  <div class="row">
+    <input type="number" class="in" id="cVal" placeholder="Custom, e.g. 45" min="1" step="any">
+    <select class="sel-box" id="cUnit"><option value="1">sec</option><option value="60" selected>min</option><option value="3600">hr</option></select>
+  </div>
+  <div class="label"><span>Alert me when</span></div>
+  <div class="row">
+    <input type="text" class="in" id="wText" placeholder="text, e.g. In stock" maxlength="200" spellcheck="false">
+    <select class="sel-box" id="wMode"><option value="appears">appears</option><option value="disappears">disappears</option></select>
+  </div>
+  <div class="opts">
+    <div class="opt" data-k="hardRefresh" title="Skip the browser cache so you always get fresh data">Hard refresh</div>
+    <div class="opt" data-k="preserveScroll" title="Return to the same scroll position after each refresh">Keep scroll</div>
+    <div class="opt" data-k="smartPause" title="Wait while you're typing in a form or selecting text">Smart pause</div>
+    <div class="opt" data-k="showTimer" title="Show a small countdown in the corner of the page">Page timer</div>
+    <div class="opt" data-k="randomize" title="Vary each interval by ±25% so refreshes look less robotic">Randomize</div>
+    <div class="opt" data-k="sound" title="Play a chime when your alert text is found">Alert sound</div>
+  </div>
+</div>
+
+<div class="act-wrap"><button class="act" id="act">Start</button></div>
+<div class="list hide" id="list"></div>
+<div class="ftr"><span id="ftr">Tap an interval to start</span><span><kbd id="kbd" title="Toggle refresh on the current tab · click to change">Alt+Shift+R</kbd></span></div>
 <script src="popup.js"></script>
 </body></html>
