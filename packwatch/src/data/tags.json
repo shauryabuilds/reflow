@@ -1,0 +1,23 @@
+{
+  "$comment": "Game and product-type tags. Add entries here; no code changes needed. Labels are plain descriptive text only.",
+  "games": [
+    { "id": "pokemon", "label": "Pokémon TCG", "keywords": ["pokemon", "pokémon", "pikachu", "elite trainer", "etb", "scarlet & violet", "scarlet and violet", "mega evolution"] },
+    { "id": "one-piece", "label": "One Piece", "keywords": ["one piece", "op-\\d{2}", "op\\d{2}\\b", "eb-\\d{2}", "st-\\d{2}"] },
+    { "id": "lorcana", "label": "Lorcana", "keywords": ["lorcana", "illumineer"] },
+    { "id": "mtg", "label": "Magic: The Gathering", "keywords": ["magic: the gathering", "magic the gathering", "\\bmtg\\b", "play booster", "collector booster", "commander deck", "set booster"] },
+    { "id": "yugioh", "label": "Yu-Gi-Oh!", "keywords": ["yu-gi-oh", "yugioh", "yu gi oh"] },
+    { "id": "sports", "label": "Sports cards", "keywords": ["topps", "panini", "upper deck", "hobby box", "blaster box", "mega box", "prizm", "chrome baseball", "nba", "nfl", "mlb", "nhl", "soccer cards", "football cards"] },
+    { "id": "other", "label": "Other", "keywords": [] }
+  ],
+  "productTypes": [
+    { "id": "elite-trainer-box", "label": "Elite trainer box", "keywords": ["elite trainer box", "\\betb\\b"] },
+    { "id": "booster-bundle", "label": "Booster bundle", "keywords": ["booster bundle", "bundle"] },
+    { "id": "booster-box", "label": "Booster box", "keywords": ["booster box", "booster display", "display box", "hobby box", "case"] },
+    { "id": "collection-box", "label": "Collection box", "keywords": ["collection", "premium collection", "gift box", "tin"] },
+    { "id": "blister", "label": "Blister / pack", "keywords": ["blister", "booster pack", "sleeved booster", "\\bpack\\b"] },
+    { "id": "graded", "label": "Graded", "keywords": ["psa \\d", "bgs \\d", "cgc \\d", "graded"] },
+    { "id": "single", "label": "Single card", "keywords": ["single", "holo rare", "full art", "secret rare", "alt art", "\\bnm\\b"] },
+    { "id": "preorder", "label": "Preorder", "keywords": ["pre-order", "preorder", "pre order"] },
+    { "id": "other", "label": "Other", "keywords": [] }
+  ]
+}

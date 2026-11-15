@@ -1,0 +1,9 @@
+{
+  "$comment": "Per-locale button/label rules used by the selector and heuristic strategies. Patterns are case-insensitive regex sources.",
+  "en": {
+    "inStock": "add to cart|add to basket|add to bag|buy now|buy it now|pre-?order now|pre-?order|in stock|available now",
+    "outOfStock": "sold out|out of stock|notify me|email me when|unavailable|coming soon|not available|currently unavailable|no longer available|join (the )?waitlist|discontinued",
+    "preorder": "pre-?order",
+    "queue": "you are now in line|you're in line|you are in the queue|waiting room|your estimated wait time"
+  }
+}

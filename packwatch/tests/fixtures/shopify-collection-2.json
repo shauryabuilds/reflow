@@ -1,0 +1,37 @@
+{
+ "products": [
+  {
+   "id": 1,
+   "title": "OP-14 Booster Box",
+   "handle": "op-14-box",
+   "variants": [
+    {
+     "available": true,
+     "price": "119.90"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "title": "OP-15 Booster Box Pre-Order",
+   "handle": "mystery",
+   "variants": [
+    {
+     "available": true,
+     "price": "129.90"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "title": "OP-15 Starter Deck",
+   "handle": "op-15-st",
+   "variants": [
+    {
+     "available": true,
+     "price": "19.90"
+    }
+   ]
+  }
+ ]
+}

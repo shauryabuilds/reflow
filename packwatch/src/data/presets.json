@@ -1,0 +1,20 @@
+{
+  "$comment": "Shop presets keyed by domain (no www). Entries with \"todo\": true are placeholders to fill in and are ignored by the extension. Do not add invented URLs.",
+  "version": 1,
+  "generic": {
+    "shopify": {
+      "name": "Shopify shop",
+      "platform": "shopify",
+      "games": [],
+      "strategy": "shopify",
+      "notes": "Any Shopify store: product pages use /products/<handle>.js, collections use /collections/<handle>/products.json."
+    }
+  },
+  "shops": {
+    "todo-us.invalid": { "todo": true, "name": "TODO: US shop", "region": "US", "platform": "other", "games": [], "strategy": "jsonld", "notes": "Placeholder. Replace the key with the real domain." },
+    "todo-sg.invalid": { "todo": true, "name": "TODO: Singapore shop", "region": "SG", "platform": "shopify", "games": [], "strategy": "shopify", "notes": "Placeholder. Replace the key with the real domain." },
+    "todo-asia.invalid": { "todo": true, "name": "TODO: Asia shop (JP/HK/MY/PH/...)", "region": "ASIA", "platform": "other", "games": [], "strategy": "jsonld", "notes": "Placeholder. Replace the key with the real domain." },
+    "todo-uk.invalid": { "todo": true, "name": "TODO: UK/EU shop", "region": "UK", "platform": "other", "games": [], "strategy": "jsonld", "notes": "Placeholder. Replace the key with the real domain." },
+    "todo-au.invalid": { "todo": true, "name": "TODO: Australia shop", "region": "AU", "platform": "shopify", "games": [], "strategy": "shopify", "notes": "Placeholder. Replace the key with the real domain." }
+  }
+}

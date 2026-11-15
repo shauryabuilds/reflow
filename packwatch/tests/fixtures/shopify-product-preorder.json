@@ -1,0 +1,19 @@
+{
+ "id": 1001,
+ "title": "OP-15 Booster Box",
+ "handle": "pe-etb",
+ "tags": [
+  "Pre-Order",
+  "pokemon"
+ ],
+ "price": 6499,
+ "variants": [
+  {
+   "id": 11,
+   "title": "Default Title",
+   "available": true,
+   "price": 6499
+  }
+ ],
+ "available": true
+}

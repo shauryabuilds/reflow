@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": { "$comment": { "type": "string" } },
+  "patternProperties": {
+    "^[a-z]{2}(-[A-Z]{2})?$": {
+      "type": "object",
+      "required": ["inStock", "outOfStock", "preorder", "queue"],
+      "properties": { "inStock": { "type": "string" }, "outOfStock": { "type": "string" }, "preorder": { "type": "string" }, "queue": { "type": "string" } },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

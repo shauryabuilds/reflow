@@ -1,0 +1,21 @@
+{
+ "id": 1002,
+ "title": "Lorcana Booster Box",
+ "available": true,
+ "tags": "lorcana, sealed",
+ "price": 12900,
+ "variants": [
+  {
+   "id": 21,
+   "title": "English",
+   "available": false,
+   "price": 12900
+  },
+  {
+   "id": 22,
+   "title": "Japanese",
+   "available": true,
+   "price": 13900
+  }
+ ]
+}

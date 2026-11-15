@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["defaults", "rules"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "defaults": {
+      "type": "object",
+      "required": ["minGapSec", "maxPerHour", "floorGapSec"],
+      "properties": { "minGapSec": { "type": "number", "minimum": 1 }, "maxPerHour": { "type": "integer", "minimum": 1 }, "floorGapSec": { "type": "number", "minimum": 1 } },
+      "additionalProperties": false
+    },
+    "rules": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9.-]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "properties": { "minIntervalSec": { "type": "number", "minimum": 1 }, "minGapSec": { "type": "number", "minimum": 1 }, "maxPerHour": { "type": "integer", "minimum": 1 }, "notes": { "type": "string" } },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

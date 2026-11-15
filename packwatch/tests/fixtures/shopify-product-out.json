@@ -1,0 +1,19 @@
+{
+ "id": 1001,
+ "title": "Prismatic Evolutions Elite Trainer Box",
+ "handle": "pe-etb",
+ "tags": [
+  "sealed",
+  "pokemon"
+ ],
+ "price": 6499,
+ "variants": [
+  {
+   "id": 11,
+   "title": "Default Title",
+   "available": false,
+   "price": 6499
+  }
+ ],
+ "available": false
+}

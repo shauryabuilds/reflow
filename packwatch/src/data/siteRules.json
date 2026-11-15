@@ -1,0 +1,5 @@
+{
+  "$comment": "Polite-mode limits. defaults apply to every domain; rules override per domain (matches subdomains). Values can only make Packwatch gentler: minGapSec never goes below floorGapSec.",
+  "defaults": { "minGapSec": 10, "maxPerHour": 300, "floorGapSec": 5 },
+  "rules": {}
+}

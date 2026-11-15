@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["version", "generic", "shops"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "version": { "type": "integer" },
+    "generic": { "type": "object", "required": ["shopify"], "additionalProperties": { "$ref": "#/definitions/preset" } },
+    "shops": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9.-]+\\.[a-z]{2,}$" },
+      "additionalProperties": { "$ref": "#/definitions/preset" }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "preset": {
+      "type": "object",
+      "required": ["name", "platform", "games", "strategy"],
+      "properties": {
+        "todo": { "type": "boolean" },
+        "name": { "type": "string", "minLength": 1 },
+        "region": { "type": "string", "pattern": "^[A-Z]{2,5}$" },
+        "platform": { "enum": ["shopify", "other"] },
+        "games": { "type": "array", "items": { "type": "string" } },
+        "strategy": { "enum": ["shopify", "jsonld", "selector", "heuristic"] },
+        "selector": { "type": "string" },
+        "inStockRule": {
+          "type": "object",
+          "properties": { "locale": { "type": "string" }, "inStock": { "type": "string" }, "outOfStock": { "type": "string" }, "useEnabled": { "type": "boolean" } },
+          "required": ["locale"],
+          "additionalProperties": false
+        },
+        "listingUrls": {
+          "type": "array",
+          "items": { "type": "object", "required": ["label", "url"], "properties": { "label": { "type": "string" }, "url": { "type": "string", "format": "uri" } }, "additionalProperties": false }
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
