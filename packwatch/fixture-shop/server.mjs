@@ -17,6 +17,7 @@
 //   /__control/add?host=&collection=&title=        adds a product to a collection
 //   /__control/auto?on=1                            timer-driven flips on/off
 //   /__control/stats                                request counts per host
+//   POST /__sink/...  then  /__control/sink          records POSTs (fake ntfy server for tests)
 //   /__control/reset
 import http from "node:http";
 
@@ -29,6 +30,7 @@ const STATES = ["out", "in", "out", "preorder"];
 const state = new Map(); // `${host}|${handle}` → { state, price }
 const collections = new Map(); // `${host}|${collection}` → [{ id, handle, title, price }]
 const stats = new Map(); // host → { total, paths: {path: n} }
+const sink = []; // POST bodies received on /__sink* (stands in for ntfy / webhooks in tests)
 let nextId = 1000;
 const started = Date.now();
 
@@ -73,6 +75,16 @@ const availability = { in: "https://schema.org/InStock", out: "https://schema.or
 const money = (p, cur) => `${cur === "SGD" ? "S$" : "$"}${p.toFixed(2)}`;
 
 function route(req, res) {
+  if (req.method === "POST" && req.url.startsWith("/__sink")) {
+    let body = "";
+    req.on("data", (c) => (body += c));
+    req.on("end", () => {
+      try { sink.push({ path: req.url, body: JSON.parse(body), at: Date.now() }); } catch { sink.push({ path: req.url, body, at: Date.now() }); }
+      res.writeHead(200, { "content-type": "application/json", "access-control-allow-origin": "*" });
+      res.end('{"ok":true}');
+    });
+    return;
+  }
   const host = (req.headers.host || "localhost").split(":")[0];
   const url = new URL(req.url, `http://${req.headers.host}`);
   const p = url.pathname;
@@ -98,7 +110,8 @@ function route(req, res) {
   }
   if (p === "/__control/auto") { auto = url.searchParams.get("on") === "1"; return json({ ok: true, auto }); }
   if (p === "/__control/stats") return json(Object.fromEntries(stats));
-  if (p === "/__control/reset") { state.clear(); collections.clear(); stats.clear(); return json({ ok: true }); }
+  if (p === "/__control/sink") return json(sink);
+  if (p === "/__control/reset") { state.clear(); collections.clear(); stats.clear(); sink.length = 0; return json({ ok: true }); }
 
   if ((m = p.match(/^\/products\/([^/]+)\.js$/))) {
     const st = productState(host, m[1]);

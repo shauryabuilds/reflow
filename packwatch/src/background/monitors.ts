@@ -27,7 +27,9 @@ export function monitorFromDraft(d: Draft, plan: Plan): Monitor {
     game: d.game, productType: d.productType, mode: "fetch", strategy: d.strategy, selector: d.selector,
     inStockRule: preset?.inStockRule ?? { locale: "en" },
     alertOn: { restock: d.alertOn.restock, preorder: d.alertOn.preorder, ...(d.alertOn.priceAtOrBelow && can(plan, "priceAlerts") ? { priceAtOrBelow: d.alertOn.priceAtOrBelow } : {}) },
-    keywords: d.keywords, excludeKeywords: d.excludeKeywords, variantId: d.variantId, currencyHint: d.currencyHint,
+    keywords: d.keywords, excludeKeywords: d.excludeKeywords, variantId: d.variantId,
+    // Shopify .js prices carry no currency: fall back to the price target's currency.
+    currencyHint: d.currencyHint ?? d.alertOn.priceAtOrBelow?.currency,
     intervalSec: Math.max(d.intervalSec, planMinInterval(plan, "fetch")), priority: "normal",
     state: "unknown", stableState: "unknown", consecutiveErrors: 0, createdAt: d.createdAt || Date.now(),
   };

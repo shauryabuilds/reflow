@@ -655,5 +655,65 @@
   },
   "devPlanReal": {
     "message": "Real"
+  },
+  "secPhone": {
+    "message": "Phone alerts"
+  },
+  "phoneIntro": {
+    "message": "Get restock alerts on your phone with the free ntfy app. No account and no Packwatch server: alerts go straight from your browser to ntfy."
+  },
+  "phoneEnable": {
+    "message": "Send alerts to my phone"
+  },
+  "phoneStep1": {
+    "message": "Install the free ntfy app (Android or iPhone)."
+  },
+  "phoneStep2": {
+    "message": "Scan this code, or tap + in the app and subscribe to the topic below."
+  },
+  "phoneStep3": {
+    "message": "Topic:"
+  },
+  "newTopic": {
+    "message": "New topic"
+  },
+  "advanced": {
+    "message": "Advanced"
+  },
+  "ntfyServer": {
+    "message": "ntfy server"
+  },
+  "stallToPhone": {
+    "message": "Also send “monitor stopped” alerts to my phone and Discord"
+  },
+  "phonePrivacy": {
+    "message": "Your topic is random and private. Anyone who learns it could read your alerts, so don't share it."
+  },
+  "secDiscord": {
+    "message": "Discord"
+  },
+  "discordIntro": {
+    "message": "Post alerts to your own private server. In Discord: Server settings → Integrations → Webhooks → New webhook → Copy URL."
+  },
+  "discordInvalid": {
+    "message": "That doesn't look like a Discord webhook URL."
+  },
+  "discordSaved": {
+    "message": "Saved. A test alert was sent to your channel."
+  },
+  "saveAndTest": {
+    "message": "Save & test"
+  },
+  "discordEnable": {
+    "message": "Send alerts to Discord"
+  },
+  "secQuiet": {
+    "message": "Quiet hours"
+  },
+  "quietIntro": {
+    "message": "During quiet hours alerts are silent and nothing goes to your phone or Discord, except monitors set to “Wake me”."
+  },
+  "clear": {
+    "message": "Clear"
   }
 }
