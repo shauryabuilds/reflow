@@ -73,12 +73,14 @@ http://localhost:8787/__control/set?host=shop-a.localhost&handle=elite-trainer-b
 npm test
 npm run typecheck
 npm run test:e2e
+npm run test:restart
 npm run perf
 ```
 
 - `npm test` runs the Vitest unit tests: detectors on fixtures, prices, polite mode, scheduler, dedupe, entitlements, history, packs and i18n.
 - `npm run typecheck` runs strict TypeScript.
 - `npm run test:e2e` runs the Playwright smoke test. It builds the dev build, adds a product watch and a listing watch through the real popup, then asserts exactly one notification per event.
+- `npm run test:restart` closes and relaunches the browser while two items restock, then checks that both alert once with no Start press and no duplicate watcher tab.
 - `npm run perf` runs the 1-hour soak test with 20 monitors and writes `PERF.md`. Use `PERF_MINUTES=10 npm run perf` for a shorter run.
 
 ## Release zip
