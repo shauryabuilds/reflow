@@ -50,6 +50,11 @@ export async function checkInTab(m: Monitor): Promise<CheckResult> {
   if (fresh) {
     await waitComplete(tabId);
   } else {
+    // Never reload a watcher tab the user is looking at (they may be checking out in it).
+    const t = await tabExists(tabId);
+    if (t?.active && t.windowId !== undefined && (await chrome.windows.get(t.windowId).catch(() => null))?.focused) {
+      return { ok: true, state: "unknown", evidence: "Paused while you use this tab", skipped: "typing", checkedAt };
+    }
     await injectGuard(tabId);
     const p = await probe(tabId, { typingMs: APP.TYPING_GUARD_MS, saveScroll: false, html: 0 });
     if (p?.busy) return { ok: true, state: "unknown", evidence: "Paused while you type", skipped: "typing", checkedAt };

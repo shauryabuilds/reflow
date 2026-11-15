@@ -11,6 +11,7 @@ let ctx: AudioContext | null = null;
 
 export function playSound(id: SoundId, volume: number) {
   ctx ??= new AudioContext();
+  if (ctx.state === "suspended") void ctx.resume();
   const t0 = ctx.currentTime + 0.02;
   const vol = Math.max(0, Math.min(1, volume)) * (id === "alarm" ? 0.25 : 0.4);
   for (const [f, s, d, type] of PATTERNS[id] ?? PATTERNS.chime) {

@@ -41,10 +41,11 @@ export function Popup() {
   const active = watches.filter((m) => m.state !== "paused").length;
   const live = watches.filter((m) => m.kind === "product" && (m.stableState === "in" || m.stableState === "preorder") && m.state !== "paused").length;
 
-  const openPanel = async () => {
-    const w = await chrome.windows.getCurrent();
-    if (w.id !== undefined) await chrome.sidePanel.open({ windowId: w.id }).catch(() => chrome.tabs.create({ url: chrome.runtime.getURL("src/sidepanel/index.html") }));
-    window.close();
+  const openPanel = () => {
+    // sidePanel.open must be called synchronously inside the click (user gesture): no await before it.
+    const fallback = () => chrome.tabs.create({ url: chrome.runtime.getURL("src/sidepanel/index.html") });
+    const p = tab?.windowId !== undefined ? chrome.sidePanel.open({ windowId: tab.windowId }) : Promise.reject();
+    p.catch(fallback).finally(() => window.close());
   };
   const dismissWelcome = async () => {
     const u = await getLocal("pw.ui");

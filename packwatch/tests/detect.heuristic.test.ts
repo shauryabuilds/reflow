@@ -15,6 +15,11 @@ describe("heuristic strategy", () => {
     expect(r.state).toBe("out");
     expect(r.price).toEqual({ amount: 54.95, currency: "GBP" });
   });
+  it("preorder", () => {
+    const r = detectHeuristic(fx("heuristic-preorder.html"), { locale: "en" }, "SGD");
+    expect(r.state).toBe("preorder");
+    expect(r.price).toEqual({ amount: 189, currency: "SGD" });
+  });
   it("ambiguous page is unknown", () => {
     expect(detectHeuristic(fx("heuristic-ambiguous.html")).state).toBe("unknown");
   });
