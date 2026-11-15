@@ -82,13 +82,13 @@ packwatch/
 
 ## Milestones
 
-- [ ] 1. Scaffold: MV3 + Vite + CRXJS + React + Tailwind + i18n, popup/options/side panel shells, typed storage + migrations (Reflow → Packwatch), welcome card.
-- [ ] 2. Data files + JSON schemas. Detection modules with fixture tests (Shopify product/collection, JSON-LD, selector, heuristic, multi-currency prices, queue/challenge pages).
-- [ ] 3. Scheduler (offscreen ticker + alarm watchdog), polite mode, backoff, dedupe incl. listing memory, restart survival, heartbeat badge + stall notifications.
-- [ ] 4. Monitor creation: Watch this product, Watch for new listings, tag suggestions, element picker, per-domain permission, grouped/filterable list.
-- [ ] 5. Free alerts: desktop, sound, auto-open tab. Simple Refresh with typing guard.
-- [ ] 6. Entitlements + ExtPay + upgrade sheet + missed-restock nudge + downgrade + dev plan toggle.
-- [ ] 7. Pro alerts: ntfy + QR, Discord, stall-to-phone, priority/quiet hours, price alerts, price guard, seller filter.
-- [ ] 8. History + filters, pattern insights, boost window, CSV export, watchlist packs.
-- [ ] 9. Fixture shop + Playwright smoke test.
-- [ ] 10. README, PRIVACY, STORE_LISTING, CHANGELOG, PERF.
+- [x] 1. Scaffold: MV3 + Vite + CRXJS + React + Tailwind + i18n, popup/options/side panel shells, typed storage + migrations (Reflow → Packwatch), welcome card.
+- [x] 2. Data files + JSON schemas. Detection modules with fixture tests (Shopify product/collection, JSON-LD, selector, heuristic, multi-currency prices, queue/challenge pages).
+- [x] 3. Scheduler (offscreen ticker + alarm watchdog), polite mode, backoff, dedupe incl. listing memory, restart survival, heartbeat badge + stall notifications.
+- [x] 4. Monitor creation: Watch this product, Watch for new listings, tag suggestions, element picker, per-domain permission, grouped/filterable list.
+- [x] 5. Free alerts: desktop, sound, auto-open tab. Simple Refresh with typing guard.
+- [x] 6. Entitlements + ExtPay + upgrade sheet + missed-restock nudge + downgrade + dev plan toggle.
+- [x] 7. Pro alerts: ntfy + QR, Discord, stall-to-phone, priority/quiet hours, price alerts, price guard, seller filter.
+- [x] 8. History + filters, pattern insights, boost window, CSV export, watchlist packs.
+- [x] 9. Fixture shop + Playwright smoke test.
+- [x] 10. README, PRIVACY, STORE_LISTING, CHANGELOG, PERF.
