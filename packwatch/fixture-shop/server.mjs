@@ -34,7 +34,13 @@ const sink = []; // POST bodies received on /__sink* (stands in for ntfy / webho
 let nextId = 1000;
 const started = Date.now();
 
-const hash = (s) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+// FNV-1a with a final avalanche, so similar names ("s1|box-1", "s2|box-2") land in different phases.
+const hash = (s) => {
+  let h = 0x811c9dc5;
+  for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 0x01000193);
+  h ^= h >>> 16; h = Math.imul(h, 0x45d9f3b); h ^= h >>> 16;
+  return h >>> 0;
+};
 const currencyOf = (host) => (host.startsWith("sg") ? "SGD" : "USD");
 const titleOf = (handle) => handle.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
