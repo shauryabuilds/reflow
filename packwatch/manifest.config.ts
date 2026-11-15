@@ -1,7 +1,7 @@
 import { defineManifest } from "@crxjs/vite-plugin";
 import pkg from "./package.json";
 
-export default defineManifest({
+export default defineManifest((env) => ({
   manifest_version: 3,
   name: "__MSG_extName__",
   short_name: "Packwatch",
@@ -20,6 +20,9 @@ export default defineManifest({
   side_panel: { default_path: "src/sidepanel/index.html" },
   permissions: ["storage", "alarms", "notifications", "offscreen", "scripting", "activeTab", "tabs", "sidePanel"],
   optional_host_permissions: ["<all_urls>"],
+  // Dev builds only: the local fixture shop (*.localhost) works without a permission prompt,
+  // so automated tests can run. Store builds request each shop's permission at runtime.
+  ...(env.mode !== "production" ? { host_permissions: ["http://localhost/*", "http://*.localhost/*"] } : {}),
   content_scripts: [
     // Required by ExtensionPay so onPaid / onTrialStarted reach the extension.
     { matches: ["https://extensionpay.com/*"], js: ["src/content/extpay.ts"], run_at: "document_start" },
@@ -30,4 +33,4 @@ export default defineManifest({
       description: "__MSG_cmdToggleRefresh__",
     },
   },
-});
+}));
