@@ -502,5 +502,116 @@
   },
   "perMonth": {
     "message": "month"
+  },
+  "noShortcut": {
+    "message": "Not set"
+  },
+  "simpleQueue": {
+    "message": "Waiting room detected: refreshing stopped so you keep your place."
+  },
+  "simpleEvery": {
+    "message": "every $1"
+  },
+  "simpleCount": {
+    "message": "$1 refreshes"
+  },
+  "simpleTypingNote": {
+    "message": "Waits while you type or have unsaved form input."
+  },
+  "shortcutHint": {
+    "message": "Shortcut: $1"
+  },
+  "simpleIntro": {
+    "message": "Plain auto-refresh for this tab. Tap an interval to start."
+  },
+  "unitMin": {
+    "message": "min"
+  },
+  "unitSec": {
+    "message": "sec"
+  },
+  "unitHr": {
+    "message": "hr"
+  },
+  "customInterval": {
+    "message": "Custom"
+  },
+  "start": {
+    "message": "Start"
+  },
+  "optHard": {
+    "message": "Hard refresh"
+  },
+  "optHardTip": {
+    "message": "Skip the browser cache on every refresh"
+  },
+  "optScroll": {
+    "message": "Keep scroll"
+  },
+  "optScrollTip": {
+    "message": "Return to the same spot after each refresh"
+  },
+  "optRandom": {
+    "message": "Randomize"
+  },
+  "optRandomTip": {
+    "message": "Vary each interval by ±25%"
+  },
+  "rememberedFor": {
+    "message": "Remembered for $1"
+  },
+  "settingsTitle": {
+    "message": "Packwatch settings"
+  },
+  "secAlerts": {
+    "message": "Alerts"
+  },
+  "sound": {
+    "message": "Sound"
+  },
+  "soundChime": {
+    "message": "Chime"
+  },
+  "soundPing": {
+    "message": "Ping"
+  },
+  "soundAlarm": {
+    "message": "Alarm"
+  },
+  "play": {
+    "message": "Play"
+  },
+  "volume": {
+    "message": "Volume ($1%)"
+  },
+  "autoOpen": {
+    "message": "Open the product tab automatically on restock (focuses it if already open)"
+  },
+  "defaultInterval": {
+    "message": "Default check interval"
+  },
+  "shortcut": {
+    "message": "Simple Refresh shortcut"
+  },
+  "change": {
+    "message": "Change"
+  },
+  "sendTestAlert": {
+    "message": "Send a test alert"
+  },
+  "secStats": {
+    "message": "Your stats"
+  },
+  "statsNote": {
+    "message": "Counted on this device only. Packwatch never sends them anywhere."
+  },
+  "statMonitors": {
+    "message": "Monitors created"
+  },
+  "statAlerts": {
+    "message": "Alerts fired"
+  },
+  "statConversions": {
+    "message": "Pro upgrades"
   }
 }
