@@ -1,0 +1,11 @@
+{
+  "extName": { "message": "Packwatch – TCG Restock Alerts & Auto Refresh" },
+  "extDescription": { "message": "Private restock alerts for trading cards. Watch any shop, get pinged in seconds, never get locked out for refreshing." },
+  "cmdToggleRefresh": { "message": "Start or stop Simple Refresh on the current tab" },
+  "welcomeTitle": { "message": "Reflow is now Packwatch" },
+  "welcomeBody": { "message": "Same extension, new focus: alerts the moment an item you care about restocks." },
+  "welcomeBullet1": { "message": "Your auto-refresh settings moved over. Find them under Simple Refresh." },
+  "welcomeBullet2": { "message": "New: watch a product page and get alerted on restock or preorder." },
+  "welcomeBullet3": { "message": "New: watch a shop for new listings that match your keywords." },
+  "gotIt": { "message": "Got it" }
+}

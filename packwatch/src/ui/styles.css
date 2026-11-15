@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html { color-scheme: light dark; }
+  body { @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 text-[13px] antialiased; }
+  button { cursor: pointer; }
+  button:disabled { cursor: default; }
+}
+
+@utility card { @apply rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900; }
+@utility btn { @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3 h-8 text-[12px] font-semibold border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-40; }
+@utility btn-primary { @apply btn bg-zinc-900 text-white border-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100 dark:hover:bg-white; }
+@utility btn-ghost { @apply btn border-transparent; }
+@utility input { @apply h-8 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-2 text-[12px] outline-none focus:border-zinc-500 min-w-0; }
+@utility label { @apply text-[10px] font-semibold uppercase tracking-wider text-zinc-500; }
+@utility chip { @apply inline-flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 h-6 text-[11px]; }
