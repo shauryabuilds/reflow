@@ -67,5 +67,440 @@
   },
   "alertTestBody": {
     "message": "This is what a restock alert looks like."
+  },
+  "aboutPerMonth": {
+    "message": "≈ $1/month"
+  },
+  "alertMeOn": {
+    "message": "Alert me on"
+  },
+  "alertPreorder": {
+    "message": "Preorder opens"
+  },
+  "alertPrice": {
+    "message": "Price at or below"
+  },
+  "alertRestock": {
+    "message": "Restock"
+  },
+  "allGames": {
+    "message": "All games"
+  },
+  "allRegions": {
+    "message": "All regions"
+  },
+  "allShops": {
+    "message": "All shops"
+  },
+  "allowShop": {
+    "message": "Allow $1"
+  },
+  "alreadyPaid": {
+    "message": "Already paid? Log in"
+  },
+  "anyVariant": {
+    "message": "Any variant"
+  },
+  "backingOff": {
+    "message": "Backing off: the site is rate-limiting. Checks will speed up again after a good response."
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "checkEvery": {
+    "message": "Check every"
+  },
+  "checkMode": {
+    "message": "How to check"
+  },
+  "checkNow": {
+    "message": "Check now"
+  },
+  "checkedAgo": {
+    "message": "checked $1 ago"
+  },
+  "chooseActiveBanner": {
+    "message": "Your Pro access ended. Choose which 3 monitors stay active."
+  },
+  "confirmDelete": {
+    "message": "Delete “$1”? Its history is kept."
+  },
+  "delete": {
+    "message": "Delete"
+  },
+  "detectedAs": {
+    "message": "Detected: $1"
+  },
+  "disclaimer": {
+    "message": "Packwatch is independent and not affiliated with any game publisher or retailer."
+  },
+  "dismiss": {
+    "message": "Dismiss"
+  },
+  "edit": {
+    "message": "Edit"
+  },
+  "editMonitor": {
+    "message": "Edit monitor"
+  },
+  "emptyMonitors": {
+    "message": "No monitors yet. Open a product or shop page and click Watch in the Packwatch popup."
+  },
+  "errDenied": {
+    "message": "Packwatch needs permission to check $1. Try again and click Allow."
+  },
+  "errDuplicate": {
+    "message": "You're already watching this page."
+  },
+  "errLimit": {
+    "message": "The Free plan watches up to 3 pages at once."
+  },
+  "every": {
+    "message": "every $1"
+  },
+  "footerFree": {
+    "message": "$1 of $2 watches · Free"
+  },
+  "footerLive": {
+    "message": "$1 in stock"
+  },
+  "footerPro": {
+    "message": "$1 watches"
+  },
+  "game": {
+    "message": "Game"
+  },
+  "gameAny": {
+    "message": "Game: any"
+  },
+  "getUnlimited": {
+    "message": "Get unlimited"
+  },
+  "groupBy": {
+    "message": "Group by"
+  },
+  "groupGame": {
+    "message": "By game"
+  },
+  "groupRegion": {
+    "message": "By region"
+  },
+  "groupShop": {
+    "message": "By shop"
+  },
+  "keywordsExclude": {
+    "message": "Skip titles containing"
+  },
+  "keywordsExcludePh": {
+    "message": "e.g. japanese, damaged"
+  },
+  "keywordsInclude": {
+    "message": "Alert for titles containing (any)"
+  },
+  "keywordsIncludePh": {
+    "message": "e.g. OP-15, booster box, elite trainer"
+  },
+  "kindListing": {
+    "message": "new listings"
+  },
+  "lessReliable": {
+    "message": "Less reliable: no product data found, using the page's buttons. Picking the stock button is more accurate."
+  },
+  "modeFetch": {
+    "message": "Fetch (fast, no tab)"
+  },
+  "modeFetchShort": {
+    "message": "fetch"
+  },
+  "modeSimple": {
+    "message": "Simple Refresh"
+  },
+  "modeTab": {
+    "message": "Watcher tab (for JS pages)"
+  },
+  "modeTabShort": {
+    "message": "tab"
+  },
+  "modeWatch": {
+    "message": "Watch"
+  },
+  "monitorsShort": {
+    "message": "Monitors"
+  },
+  "nextIn": {
+    "message": "next in $1"
+  },
+  "noProductsFound": {
+    "message": "No products found on this page."
+  },
+  "notCheckedYet": {
+    "message": "not checked yet"
+  },
+  "notNow": {
+    "message": "Not now"
+  },
+  "nowWatching": {
+    "message": "Now watching"
+  },
+  "nudgeBody": {
+    "message": "Pro would have pinged your phone."
+  },
+  "nudgeListing": {
+    "message": "$1 was listed at $2 while you were away."
+  },
+  "nudgePreorder": {
+    "message": "$1 opened for preorder at $2 while you were away."
+  },
+  "nudgeRestock": {
+    "message": "$1 restocked at $2 while you were away."
+  },
+  "openMonitors": {
+    "message": "Open monitors"
+  },
+  "openShopPage": {
+    "message": "Open a product or shop page, then click Packwatch to watch it."
+  },
+  "pause": {
+    "message": "Pause"
+  },
+  "pickButton": {
+    "message": "Pick the stock button instead"
+  },
+  "pickerCancelled": {
+    "message": "Packwatch: picking cancelled"
+  },
+  "pickerEsc": {
+    "message": "Esc to cancel"
+  },
+  "pickerFailed": {
+    "message": "Packwatch couldn't save that element."
+  },
+  "pickerHint": {
+    "message": "Click the button that shows stock (Add to cart / Sold out)."
+  },
+  "pickerSaved": {
+    "message": "Packwatch is watching this element"
+  },
+  "pickerSaving": {
+    "message": "Saving…"
+  },
+  "presetListings": {
+    "message": "$1: new listings"
+  },
+  "previewMatches": {
+    "message": "$1 of $2 products match"
+  },
+  "priceGuard": {
+    "message": "Only alert restocks at or below my price"
+  },
+  "priceTarget": {
+    "message": "Target price"
+  },
+  "priority": {
+    "message": "Priority"
+  },
+  "priorityNormal": {
+    "message": "Normal"
+  },
+  "prioritySilent": {
+    "message": "Silent (log only)"
+  },
+  "priorityWake": {
+    "message": "Wake me (ignores quiet hours)"
+  },
+  "proChipTitle": {
+    "message": "Available with Packwatch Pro"
+  },
+  "proDiscord": {
+    "message": "Discord alerts to your own server"
+  },
+  "proFast": {
+    "message": "Checks every 15 seconds (polite limits still apply)"
+  },
+  "proHistory": {
+    "message": "Full restock history, patterns and CSV export"
+  },
+  "proOnly": {
+    "message": "Pro"
+  },
+  "proPacks": {
+    "message": "Export and share watchlist packs"
+  },
+  "proPhone": {
+    "message": "Phone alerts via the free ntfy app"
+  },
+  "proPrice": {
+    "message": "Price alerts, price guard and seller filter"
+  },
+  "proPriority": {
+    "message": "Priority levels and quiet hours"
+  },
+  "proStall": {
+    "message": "“Monitor stopped” alerts on your phone"
+  },
+  "proUnlimited": {
+    "message": "Unlimited monitors (Free: $1)"
+  },
+  "productType": {
+    "message": "Product type"
+  },
+  "productTypeAny": {
+    "message": "Type: any"
+  },
+  "queueNote": {
+    "message": "Waiting room or bot check: Packwatch stopped reloading so you keep your place. Resume when you're done."
+  },
+  "quietHours": {
+    "message": "Quiet hours"
+  },
+  "reading": {
+    "message": "Reading this page…"
+  },
+  "region": {
+    "message": "Region"
+  },
+  "resume": {
+    "message": "Resume"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "savePct": {
+    "message": "Save $1%"
+  },
+  "selector": {
+    "message": "Element selector"
+  },
+  "sellerMustContain": {
+    "message": "Seller must contain"
+  },
+  "sellerPh": {
+    "message": "e.g. Official Store"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "shop": {
+    "message": "Shop"
+  },
+  "simpleStatus": {
+    "message": "$1 refreshes · every $2s"
+  },
+  "staleRow": {
+    "message": "Not checked for a while. Check the shop is reachable, or edit the monitor."
+  },
+  "staleTitle": {
+    "message": "Packwatch stopped checking $1 monitor(s)"
+  },
+  "startTrial": {
+    "message": "Start $1-day free trial"
+  },
+  "stateWatching": {
+    "message": "Watching"
+  },
+  "stop": {
+    "message": "Stop"
+  },
+  "tabHistory": {
+    "message": "History"
+  },
+  "tabListings": {
+    "message": "New listings"
+  },
+  "tabModeNote": {
+    "message": "This page needs a browser tab to render. Packwatch opened a small pinned tab for it."
+  },
+  "tabMonitors": {
+    "message": "Monitors ($1)"
+  },
+  "tabProduct": {
+    "message": "This product"
+  },
+  "tags": {
+    "message": "Tags"
+  },
+  "testAlert": {
+    "message": "Test alert"
+  },
+  "testSent": {
+    "message": "Sent ✓"
+  },
+  "title": {
+    "message": "Title"
+  },
+  "upgrade": {
+    "message": "Upgrade"
+  },
+  "upgradeError": {
+    "message": "Couldn't open the payment page. Check your connection and try again."
+  },
+  "upgradeNow": {
+    "message": "Upgrade now"
+  },
+  "upgradeSub": {
+    "message": "$1-day free trial, cancel anytime. Everything in Free, plus:"
+  },
+  "upgradeTitle": {
+    "message": "Packwatch Pro"
+  },
+  "variant": {
+    "message": "Variant"
+  },
+  "watchListings": {
+    "message": "Watch for new listings"
+  },
+  "watchNewListingsAt": {
+    "message": "Watch new listings: $1"
+  },
+  "watchProduct": {
+    "message": "Watch this product"
+  },
+  "watchingListings": {
+    "message": "Watching this page for new listings"
+  },
+  "watchingThis": {
+    "message": "Watching this product"
+  },
+  "state_in": {
+    "message": "In stock"
+  },
+  "state_out": {
+    "message": "Out of stock"
+  },
+  "state_preorder": {
+    "message": "Preorder"
+  },
+  "state_unknown": {
+    "message": "Checking…"
+  },
+  "state_queue": {
+    "message": "Queue / bot check"
+  },
+  "state_error": {
+    "message": "Error"
+  },
+  "state_paused": {
+    "message": "Paused"
+  },
+  "plan_free": {
+    "message": "Free"
+  },
+  "plan_trial": {
+    "message": "Trial"
+  },
+  "plan_pro": {
+    "message": "Pro"
+  },
+  "planAnnual": {
+    "message": "Annual"
+  },
+  "planMonthly": {
+    "message": "Monthly"
+  },
+  "perYear": {
+    "message": "year"
+  },
+  "perMonth": {
+    "message": "month"
   }
 }
