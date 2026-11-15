@@ -613,5 +613,47 @@
   },
   "statConversions": {
     "message": "Pro upgrades"
+  },
+  "chooseTitle": {
+    "message": "Choose $1 monitors to keep active"
+  },
+  "chooseBody": {
+    "message": "Your Pro access ended. Everything is kept: the rest are paused and come back if you upgrade."
+  },
+  "keepAllPro": {
+    "message": "Keep all with Pro"
+  },
+  "keepSelected": {
+    "message": "Keep these $1"
+  },
+  "secPlan": {
+    "message": "Plan"
+  },
+  "planIsPro": {
+    "message": "You're on Packwatch Pro. Thank you!"
+  },
+  "planIsTrial": {
+    "message": "Pro trial: $1 day(s) left."
+  },
+  "planIsFree": {
+    "message": "You're on the Free plan: 3 monitors, checks every 60 seconds."
+  },
+  "seePro": {
+    "message": "See Pro"
+  },
+  "manageSubscription": {
+    "message": "Manage subscription"
+  },
+  "restorePurchase": {
+    "message": "Log in / restore purchase"
+  },
+  "refreshStatus": {
+    "message": "Refresh status"
+  },
+  "devPlanTitle": {
+    "message": "Dev build: simulate plan"
+  },
+  "devPlanReal": {
+    "message": "Real"
   }
 }
