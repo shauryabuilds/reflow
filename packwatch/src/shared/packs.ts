@@ -43,7 +43,7 @@ const STRATS = new Set(["shopify", "jsonld", "selector", "heuristic"]);
 export function parsePack(text: string): WatchlistPack {
   let raw: unknown;
   const s = text.trim();
-  try { raw = JSON.parse(s.startsWith("{") ? s : atob(s.replace(/^packwatch:/, ""))); }
+  try { raw = JSON.parse(s.startsWith("{") ? s : b64decode(s.replace(/^packwatch:/, "").trim())); }
   catch { throw new Error("Not a Packwatch pack"); }
   const p = raw as Partial<WatchlistPack>;
   if (!p || p.format !== PACK_FORMAT || p.version !== 1 || !Array.isArray(p.monitors)) throw new Error("Not a Packwatch pack");
@@ -66,5 +66,16 @@ export function parsePack(text: string): WatchlistPack {
 
 /** Compact text form for pasting into chat: "packwatch:<base64>". */
 export function packToText(p: WatchlistPack): string {
-  return "packwatch:" + btoa(unescape(encodeURIComponent(JSON.stringify(p))));
+  return "packwatch:" + b64encode(JSON.stringify(p));
+}
+
+function b64encode(s: string): string {
+  let bin = "";
+  for (const b of new TextEncoder().encode(s)) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+function b64decode(s: string): string {
+  const bin = atob(s);
+  return new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
 }

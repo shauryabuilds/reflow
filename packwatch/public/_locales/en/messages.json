@@ -715,5 +715,101 @@
   },
   "clear": {
     "message": "Clear"
+  },
+  "allTypes": {
+    "message": "All types"
+  },
+  "historyFreeNote": {
+    "message": "Showing the last $1 days."
+  },
+  "patternsTitle": {
+    "message": "Restock patterns"
+  },
+  "exportCsv": {
+    "message": "Export CSV"
+  },
+  "patternsEmpty": {
+    "message": "Patterns appear once a shop has 3 or more restocks logged."
+  },
+  "patternLine": {
+    "message": "Most restocks on $1: $2, $3 (your time)"
+  },
+  "patternWindow": {
+    "message": "Typical in-stock window: ~$1"
+  },
+  "boostOn": {
+    "message": "Boost checks during this window"
+  },
+  "boostOff": {
+    "message": "Remove boost"
+  },
+  "historyEmpty": {
+    "message": "No events yet. Restocks, preorders and new listings will show up here."
+  },
+  "inStockFor": {
+    "message": "in stock for $1"
+  },
+  "ev_restock": {
+    "message": "Restock"
+  },
+  "ev_preorder": {
+    "message": "Preorder"
+  },
+  "ev_out": {
+    "message": "Sold out"
+  },
+  "ev_price_drop": {
+    "message": "Price drop"
+  },
+  "ev_new_listing": {
+    "message": "New listing"
+  },
+  "secPacks": {
+    "message": "Watchlist packs"
+  },
+  "packsIntro": {
+    "message": "Share a set of monitors, e.g. “watchlist for the new set”. Packs contain pages and keywords only: never your history, settings or alert channels."
+  },
+  "packImport": {
+    "message": "Import a pack"
+  },
+  "packPastePh": {
+    "message": "…or paste a pack here (packwatch:… or JSON)"
+  },
+  "packDenied": {
+    "message": "Packwatch needs permission for these shops to import the pack."
+  },
+  "packImportN": {
+    "message": "Import $1 monitors"
+  },
+  "packResult": {
+    "message": "Imported $1, skipped $2 (already watching, or over your plan's limit)."
+  },
+  "packExport": {
+    "message": "Export your monitors as a pack"
+  },
+  "packName": {
+    "message": "Pack name"
+  },
+  "packNamePh": {
+    "message": "e.g. OP-15 launch watchlist"
+  },
+  "packDescPh": {
+    "message": "Description (optional)"
+  },
+  "packExportNote": {
+    "message": "$1 monitors will be included, without any personal data."
+  },
+  "packDownload": {
+    "message": "Download file"
+  },
+  "packCopy": {
+    "message": "Copy as text"
+  },
+  "copied": {
+    "message": "Copied ✓"
+  },
+  "packDefaultName": {
+    "message": "My Packwatch watchlist"
   }
 }
