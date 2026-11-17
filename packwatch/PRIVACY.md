@@ -1,6 +1,6 @@
 # Packwatch privacy policy
 
-Effective date: November 15, 2026
+Effective date: November 17, 2026
 
 Packwatch is a browser extension that watches the shop pages you choose and alerts you when an item restocks, opens for preorder, drops in price or is newly listed. This policy explains what data Packwatch handles. Host it at a public URL (GitHub Pages works) and link it in the Chrome Web Store listing.
 
@@ -22,7 +22,7 @@ All of this is stored with Chrome's storage APIs on your device:
 | Recent alerts (time, title, whether you clicked) | `chrome.storage.local` (last 300) | Click handling and the in-app "you missed a restock" card |
 | ntfy topic and Discord webhook URL, if you set them | `chrome.storage.local` | Sending your alerts |
 | Sound, volume, auto-open, default interval | `chrome.storage.sync` | Preferences across your browsers (synced by Chrome to your Google account if Chrome sync is on) |
-| Simple Refresh settings per site | `chrome.storage.local` | Remembering your auto-refresh choices |
+| Auto refresh settings per site (interval, options, alert text) | `chrome.storage.local` | Remembering your auto-refresh choices |
 | Local counters (monitors created per game, alerts fired, upgrades) | `chrome.storage.local` | Shown to you on the settings page. Never sent anywhere |
 
 Uninstalling Packwatch deletes all of it.
@@ -32,6 +32,8 @@ Uninstalling Packwatch deletes all of it.
 When a monitor checks a page, Packwatch downloads that page (or the shop's public product JSON) **with your browser's cookies for that shop**, so it sees what you would see, and reads it locally to find the stock state, price, seller and product list. Packwatch does not store page content beyond the fields listed above, and never sends it anywhere.
 
 Packwatch can only read shops you granted access to. It asks for each shop's permission when you add a monitor ("Allow Packwatch to check shop.com?"), and never asks for access to all sites at install. Some JavaScript-heavy pages are checked in a small pinned "watcher" tab, which you can see in your tab strip.
+
+If you set an Auto refresh text alert ("alert me when … appears"), Packwatch checks the visible text of that tab for your words after each refresh, on your device only, and highlights the match.
 
 The element picker, typing guard and scroll memory run only on tabs you are watching or refreshing. The typing guard checks *whether* you are typing or have unsaved form input, never *what* you typed.
 
@@ -58,7 +60,7 @@ The element picker, typing guard and scroll memory run only on tabs you are watc
 | `offscreen` | A hidden page that parses shop pages, keeps the check schedule ticking and plays alert sounds |
 | `scripting` | Reading the page you are on when you click Watch, the element picker, and watcher-tab checks |
 | `activeTab` | Reading the current page only when you open the popup |
-| `tabs` | Watcher tabs, Simple Refresh, focusing a product tab when you click an alert |
+| `tabs` | Watcher tabs, Auto refresh, focusing a product tab when you click an alert |
 | `sidePanel` | The monitor list |
 | Optional host access (per shop) | Checking the specific shops you add, requested one shop at a time |
 

@@ -38,6 +38,9 @@ If a shop puts you in a waiting room or shows a bot check, Packwatch stops refre
 RELIABLE
 A live "last checked" heartbeat for every monitor, a red badge if anything stalls, and checks that pick up again after a browser restart without you pressing Start.
 
+AUTO REFRESH ANY PAGE, WITH TEXT ALERTS (FREE)
+Refresh any tab on a timer (5 seconds to hours, optional random interval), and get alerted when a word appears or disappears: "In stock", "Add to cart", "Tickets available", "Sold out". Packwatch stops refreshing, highlights the match and pings you. Press Alt+Shift+R to start or stop on any tab.
+
 NEVER LOSE WHAT YOU'RE TYPING
 Refreshes wait while you type or have unsaved form input.
 
@@ -46,7 +49,7 @@ FREE
 • Checks every 60 seconds
 • Desktop and sound alerts, auto-open the product tab
 • Restock history for the last 7 days
-• Simple Refresh: plain auto-refresh for any tab, with random intervals
+• Auto refresh for any tab, with text alerts ("alert me when … appears / disappears") and random intervals
 
 PRO (7-day free trial)
 • Unlimited monitors, checks every 15 seconds (polite limits still apply)
@@ -65,13 +68,20 @@ Packwatch never checks out, adds to cart or solves CAPTCHAs for you. It tells yo
 Packwatch is independent and not affiliated with any game publisher or retailer.
 ```
 
-## Screenshot captions (1280×800)
+## Graphics (in `store-assets/`, regenerate with `node scripts/build-store-assets.cjs`)
 
-1. **One click: Watch this product.** Packwatch reads the page, shows stock, price and suggested tags.
-2. **Alerts with price and "detected within 12s".** Desktop, phone (ntfy) and Discord.
-3. **All your monitors, grouped by game, with a live heartbeat.** Filter by game, shop or region.
-4. **Restock patterns.** "Most restocks on cards.example: Tue–Thu, 10:00–11:00", plus a one-click check boost.
-5. **Free vs Pro.** Annual pre-selected: $59.99/year (≈ $5/month), save 37%.
+| Slot | File |
+|---|---|
+| Store icon (128×128) | `store-icon-128.png` |
+| Screenshot 1: One click, watch this product | `screenshot-1-watch.png` |
+| Screenshot 2: Alerts with price and "detected within 9s", plus Auto refresh text alerts | `screenshot-2-alerts.png` |
+| Screenshot 3: Monitors grouped by game with a live heartbeat | `screenshot-3-monitors.png` |
+| Screenshot 4: Restock patterns and check boost | `screenshot-4-patterns.png` |
+| Screenshot 5: Free vs Pro (Annual pre-selected, save 37%) | `screenshot-5-pro.png` |
+| Small promo tile (440×280) | `promo-small-440x280.png` |
+| Marquee (1400×560) | `promo-marquee-1400x560.png` |
+
+All shop names in the screenshots are fictional (`.example`).
 
 ## Category
 
@@ -93,9 +103,9 @@ Packwatch checks product and shop pages the user chooses and alerts the user whe
 | alarms | A one-minute watchdog that restarts the check scheduler if it stopped and detects stalled monitors. |
 | notifications | Desktop alerts when a watched item restocks, opens for preorder, drops in price, or a monitor stalls. |
 | offscreen | A hidden document (reason: DOM_PARSER) parses fetched shop pages, keeps the per-second check schedule ticking and plays alert sounds. |
-| scripting | Reads the current page when the user clicks Watch, runs the element picker the user starts, and reads watcher tabs for JavaScript-rendered pages. |
+| scripting | Reads the current page when the user clicks Watch, runs the element picker the user starts, reads watcher tabs for JavaScript-rendered pages, and checks for the user's alert text on tabs they auto-refresh. |
 | activeTab | Lets the popup read the page the user is on, only when they open it. |
-| tabs | Opens and reloads pinned watcher tabs, runs Simple Refresh on the user's tab, and focuses the product tab when the user clicks an alert. |
+| tabs | Opens and reloads pinned watcher tabs, runs Auto refresh on the user's tab, and focuses the product tab when the user clicks an alert. |
 | sidePanel | Shows the monitor list and history. |
 | Optional host permissions | Requested per shop when the user adds a monitor, so Packwatch can check only that shop. Never requested for all sites. |
 | Content script on extensionpay.com | Required by ExtensionPay to confirm payments and trials. |

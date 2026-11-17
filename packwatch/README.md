@@ -6,7 +6,9 @@ Your own private restock monitor for trading cards. Packwatch watches the exact 
 
 It is game-agnostic: Pokémon TCG first, plus One Piece, Lorcana, Magic: The Gathering, Yu-Gi-Oh!, sports cards and other sealed collectibles. Games, product types, shops and site limits live in JSON data files, never in code.
 
-Packwatch is the rebrand and rebuild of **Reflow**. Ship it as an update to the Reflow listing, so the extension ID, users and reviews carry over. Reflow's auto-refresh lives on as **Simple Refresh**.
+Packwatch is the rebrand and rebuild of **Reflow**. Ship it as an update to the Reflow listing, so the extension ID, users and reviews carry over. Reflow's auto-refresh lives on as **Auto refresh**, now with text alerts ("alert me when … appears / disappears") on any page.
+
+**Launching?** Follow `LAUNCH.md`: step-by-step testing and upload checklist.
 
 ## Setup
 
@@ -74,6 +76,7 @@ npm test
 npm run typecheck
 npm run test:e2e
 npm run test:restart
+npm run test:monitor
 npm run perf
 ```
 
@@ -81,6 +84,8 @@ npm run perf
 - `npm run typecheck` runs strict TypeScript.
 - `npm run test:e2e` runs the Playwright smoke test. It builds the dev build, adds a product watch and a listing watch through the real popup, then asserts exactly one notification per event.
 - `npm run test:restart` closes and relaunches the browser while two items restock, then checks that both alert once with no Start press and no duplicate watcher tab.
+- `npm run test:monitor` tests Auto refresh text alerts: appears, disappears, already present at start, and "Keep refreshing".
+- `npm run backtest -- <urls>` runs the live backtest on real shop pages through the real popup. Build with `PW_TEST_HOSTS="shop.com,other.com" npm run build:dev` first.
 - `npm run perf` runs the 1-hour soak test with 20 monitors and writes `PERF.md`. Use `PERF_MINUTES=10 npm run perf` for a shorter run.
 
 ## Release zip
@@ -89,7 +94,7 @@ npm run perf
 npm run zip
 ```
 
-This builds production and writes `packwatch-<version>.zip` with `manifest.json` at the root. Upload it on the existing Reflow item's **Package** tab. The listing copy is in `STORE_LISTING.md`; the privacy policy to host is `PRIVACY.md`.
+This builds production and writes `packwatch-<version>.zip` with `manifest.json` at the root. Upload it on the existing Reflow item's **Package** tab. The listing copy is in `STORE_LISTING.md`, the graphics are in `store-assets/` (rebuild with `node scripts/build-store-assets.cjs`), and the privacy policy to host is `PRIVACY.md`.
 
 ## How it works
 
