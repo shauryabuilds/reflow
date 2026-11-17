@@ -24,3 +24,10 @@ describe("queue / challenge guard", () => {
     expect(r.state).toBe("queue");
   });
 });
+
+describe("real-world bot checks", () => {
+  it("Shopify-style “Verifying your connection...” page (seen on a real card shop)", () => {
+    const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" /><title>Verifying your connection...</title><style>*{box-sizing:border-box}</style></head><body></body></html>`;
+    expect(detectQueue(html)?.kind).toBe("challenge");
+  });
+});

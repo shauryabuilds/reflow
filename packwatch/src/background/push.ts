@@ -15,7 +15,7 @@ const NTFY_PRIORITY: Record<Priority, number> = { "wake-me": 5, normal: 4, silen
 
 export function ntfyPayload(a: PendingAlert, topic: string, priority: Priority) {
   const text = alertText(a);
-  const tags = a.event === "queue" ? ["hourglass"] : a.event === "stall" ? ["warning"] : a.event === "price-drop" ? ["moneybag"] : ["package"];
+  const tags = a.event === "queue" ? ["hourglass"] : a.event === "stall" ? ["warning"] : a.event === "price-drop" ? ["moneybag"] : a.event === "text-match" ? ["mag"] : ["package"];
   return {
     topic,
     title: text.title,
@@ -26,7 +26,7 @@ export function ntfyPayload(a: PendingAlert, topic: string, priority: Priority) 
   };
 }
 
-const COLORS: Record<string, number> = { restock: 0x10b981, preorder: 0x0ea5e9, "price-drop": 0xf59e0b, "new-listing": 0x8b5cf6, queue: 0xf59e0b, stall: 0xef4444, test: 0x71717a };
+const COLORS: Record<string, number> = { "text-match": 0x10b981, restock: 0x10b981, preorder: 0x0ea5e9, "price-drop": 0xf59e0b, "new-listing": 0x8b5cf6, queue: 0xf59e0b, stall: 0xef4444, test: 0x71717a };
 
 export function discordPayload(a: PendingAlert, now = Date.now()) {
   const text = alertText(a);

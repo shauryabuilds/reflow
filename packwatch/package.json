@@ -14,7 +14,9 @@
     "perf": "npm run build:dev && node tests/e2e/perf.cjs",
     "fixture-shop": "node fixture-shop/server.mjs",
     "zip": "npm run build && node scripts/zip.mjs",
-    "test:restart": "npm run build:dev && node tests/e2e/restart.cjs"
+    "test:restart": "npm run build:dev && node tests/e2e/restart.cjs",
+    "test:monitor": "npm run build:dev && node tests/e2e/monitor.cjs",
+    "backtest": "node tests/e2e/backtest-live.cjs"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^3.0.0",

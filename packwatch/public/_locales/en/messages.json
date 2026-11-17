@@ -6,7 +6,7 @@
     "message": "Private restock alerts for trading cards. Watch any shop, get pinged in seconds, never get locked out for refreshing."
   },
   "cmdToggleRefresh": {
-    "message": "Start or stop Simple Refresh on the current tab"
+    "message": "Start or stop Auto refresh on the current tab"
   },
   "welcomeTitle": {
     "message": "Reflow is now Packwatch"
@@ -15,7 +15,7 @@
     "message": "Same extension, new focus: alerts the moment an item you care about restocks."
   },
   "welcomeBullet1": {
-    "message": "Your auto-refresh settings moved over. Find them under Simple Refresh."
+    "message": "Auto refresh still works like before, and your settings moved over. It now can also alert you when a word appears."
   },
   "welcomeBullet2": {
     "message": "New: watch a product page and get alerted on restock or preorder."
@@ -213,7 +213,7 @@
     "message": "fetch"
   },
   "modeSimple": {
-    "message": "Simple Refresh"
+    "message": "Auto refresh"
   },
   "modeTab": {
     "message": "Watcher tab (for JS pages)"
@@ -222,7 +222,7 @@
     "message": "tab"
   },
   "modeWatch": {
-    "message": "Watch"
+    "message": "Watch stock"
   },
   "monitorsShort": {
     "message": "Monitors"
@@ -522,7 +522,7 @@
     "message": "Shortcut: $1"
   },
   "simpleIntro": {
-    "message": "Plain auto-refresh for this tab. Tap an interval to start."
+    "message": "Refresh this tab automatically. Tap an interval to start."
   },
   "unitMin": {
     "message": "min"
@@ -591,7 +591,7 @@
     "message": "Default check interval"
   },
   "shortcut": {
-    "message": "Simple Refresh shortcut"
+    "message": "Auto refresh shortcut"
   },
   "change": {
     "message": "Change"
@@ -811,5 +811,83 @@
   },
   "packDefaultName": {
     "message": "My Packwatch watchlist"
+  },
+  "useAutoRefresh": {
+    "message": "Auto refresh this page instead"
+  },
+  "doneProduct": {
+    "message": "You'll get an alert the moment it restocks or opens for preorder."
+  },
+  "doneListing": {
+    "message": "You'll get an alert when a matching new product is listed."
+  },
+  "cantReadStock": {
+    "message": "Packwatch can't read stock here automatically"
+  },
+  "lessReliableShort": {
+    "message": "Read from the page's buttons. If it looks wrong, point at the stock button under More options."
+  },
+  "listingSeen": {
+    "message": "$1 products on this page"
+  },
+  "unreadableHelp": {
+    "message": "Show Packwatch which button says “Add to cart” or “Sold out”, and it will watch that."
+  },
+  "pickButtonPrimary": {
+    "message": "Point at the stock button"
+  },
+  "watchAnyway": {
+    "message": "Watch anyway"
+  },
+  "alertPriceShort": {
+    "message": "Price drop"
+  },
+  "moreOptions": {
+    "message": "More options"
+  },
+  "switchToListings": {
+    "message": "Watch this shop for new listings instead"
+  },
+  "switchToProduct": {
+    "message": "Watch just this product instead"
+  },
+  "alertTextFound": {
+    "message": "Found “$1”"
+  },
+  "alertTextGone": {
+    "message": "“$1” is gone"
+  },
+  "alertTextContext": {
+    "message": "Auto refresh stopped. Click to open the page."
+  },
+  "matchedStopped": {
+    "message": "Refreshing stopped so you can act. The match is highlighted on the page."
+  },
+  "keepRefreshing": {
+    "message": "Keep refreshing"
+  },
+  "done": {
+    "message": "Done"
+  },
+  "watchingFor": {
+    "message": "Alert when “$1” appears"
+  },
+  "watchingGone": {
+    "message": "Alert when “$1” disappears"
+  },
+  "alertWhenOptional": {
+    "message": "Alert me when this text… (optional)"
+  },
+  "watchTextPh": {
+    "message": "e.g. In stock, Add to cart, Tickets available"
+  },
+  "watchModeLabel": {
+    "message": "appears or disappears"
+  },
+  "appears": {
+    "message": "appears"
+  },
+  "disappears": {
+    "message": "disappears"
   }
 }

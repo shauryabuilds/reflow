@@ -8,7 +8,7 @@ import { APP } from "../config/app";
 import { restore, tick, watchdog, syncOffscreen } from "./engine";
 import { checkNow, createMonitor, deleteMonitor, setPaused, updateMonitor } from "./monitors";
 import { dispatchAlert, focusOrOpen } from "./alerts";
-import { DEFAULT_SIMPLE, simpleMonitorForTab, startSimple, stopSimple } from "./simpleRefresh";
+import { DEFAULT_SIMPLE, clearTextWatch, simpleMonitorForTab, startSimple, stopSimple } from "./simpleRefresh";
 import { unbindTab, injectGuard, hasHostPermission } from "./tabs";
 import { onPicked, startPicker, finalizePendingFor } from "./picker";
 import { initEntitlements, refreshEntitlement, setDevPlan, chooseActive } from "./entitlementSync";
@@ -87,7 +87,10 @@ chrome.commands.onCommand.addListener(async (cmd, tab) => {
   if (active?.id === undefined || !active.url) return;
   if (await simpleMonitorForTab(active.id)) return stopSimple(active.id);
   const [prefs, last] = await Promise.all([getLocal("pw.simplePrefs"), getLocal("pw.simpleLast")]);
-  await startSimple(active.id, active.url, active.title ?? "", prefs[shopDomainOf(active.url)] ?? last ?? DEFAULT_SIMPLE);
+  // The shortcut is plain auto-refresh: a text alert is only ever set up on purpose, in the popup.
+  const { watchText: _w, watchMode: _m, ...pref } = prefs[shopDomainOf(active.url)] ?? last ?? DEFAULT_SIMPLE;
+  void _w; void _m;
+  await startSimple(active.id, active.url, active.title ?? "", pref);
 });
 
 async function handle(msg: BgMsg): Promise<Reply<unknown>> {
@@ -108,6 +111,7 @@ async function handle(msg: BgMsg): Promise<Reply<unknown>> {
       return { ok: true, data: await startSimple(msg.tabId, msg.url, tab.title ?? "", msg.pref) };
     }
     case "pw:simpleStop": await stopSimple(msg.tabId); return { ok: true };
+    case "pw:simpleKeepRefreshing": await clearTextWatch(msg.tabId); return { ok: true };
     case "pw:startPicker": return startPicker(msg.tabId, msg.draft);
     case "pw:picked": return onPicked(msg.draftId, msg.selector, msg.text);
     case "pw:refreshPlan": return { ok: true, data: await refreshEntitlement() };

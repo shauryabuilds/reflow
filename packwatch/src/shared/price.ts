@@ -66,6 +66,12 @@ export function parsePrice(text: string, hintCurrency?: string): Money | null {
 
 /** Normalizes a raw JSON value (number or string) plus a currency code into Money. */
 export function toMoney(value: unknown, currency?: string, hint?: string): Money | undefined {
+  const m = toMoneyRaw(value, currency, hint);
+  // 0 is a placeholder (unreleased preorders, hidden prices), never a real price.
+  return m && m.amount > 0 ? m : undefined;
+}
+
+function toMoneyRaw(value: unknown, currency?: string, hint?: string): Money | undefined {
   const cur = (currency || hint || "").toUpperCase();
   if (typeof value === "number" && Number.isFinite(value) && cur) return { amount: value, currency: cur };
   if (typeof value === "string" && value.trim()) {

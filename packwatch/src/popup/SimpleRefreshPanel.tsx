@@ -20,6 +20,8 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
   const [unit, setUnit] = useState(60);
   const [remembered, setRemembered] = useState(false);
   const [shortcut, setShortcut] = useState("Alt+Shift+R");
+  const [watchText, setWatchText] = useState("");
+  const [watchMode, setWatchMode] = useState<"appears" | "disappears">("appears");
   const domain = shopDomainOf(tab.url ?? "");
   const web = /^https?:/.test(tab.url ?? "");
 
@@ -30,6 +32,7 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
     Promise.all([getLocal("pw.simplePrefs"), getLocal("pw.simpleLast")]).then(([prefs, last]) => {
       const p = prefs[domain] ?? last;
       if (p) setPref(p);
+      if (prefs[domain]?.watchText) { setWatchText(prefs[domain].watchText!); setWatchMode(prefs[domain].watchMode ?? "appears"); }
       setRemembered(!!prefs[domain]);
     });
     chrome.commands.getAll((c) => setShortcut(c.find((x) => x.name === "toggle-refresh")?.shortcut || t("noShortcut")));
@@ -39,7 +42,7 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
   const rt = boundId ? runtime[boundId] : undefined;
 
   const start = async (seconds: number) => {
-    const p = { ...pref, intervalSec: Math.max(APP.SIMPLE_MIN_SEC, Math.round(seconds)) };
+    const p: SimplePref = { ...pref, intervalSec: Math.max(APP.SIMPLE_MIN_SEC, Math.round(seconds)), watchText: watchText.trim() || undefined, watchMode };
     setPref(p);
     // Optional: lets the typing guard, scroll memory and queue guard run on this site.
     if (web) await chrome.permissions.request({ origins: [originPattern(tab.url!)] }).catch(() => false);
@@ -47,6 +50,21 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
   };
   const stop = () => tab.id !== undefined && sendBg({ type: "pw:simpleStop", tabId: tab.id });
   const customSec = () => { const v = parseFloat(custom); return v > 0 ? v * unit : 0; };
+
+  if (m?.pausedReason === "matched") {
+    return (
+      <div className="space-y-3">
+        <div className="card p-4 text-center space-y-1 border-emerald-500/60 bg-emerald-500/10">
+          <div className="text-[15px] font-semibold text-emerald-700 dark:text-emerald-300">{m.evidence}</div>
+          <div className="text-[11px] text-zinc-500">{t("matchedStopped")}</div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button className="btn h-9" onClick={() => tab.id !== undefined && sendBg({ type: "pw:simpleKeepRefreshing", tabId: tab.id })}>{t("keepRefreshing")}</button>
+          <button className="btn-primary h-9" onClick={stop}>{t("done")}</button>
+        </div>
+      </div>
+    );
+  }
 
   if (m) {
     const left = rt && rt.nextCheckAt < Number.MAX_SAFE_INTEGER ? Math.max(0, Math.ceil((rt.nextCheckAt - now) / 1000)) : 0;
@@ -62,6 +80,7 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
           <div className="text-[11px] text-zinc-500">
             {t("simpleEvery", fmtInterval(m.intervalSec))}{m.randomize ? " ±25%" : ""} · {t("simpleCount", String(m.refreshCount ?? 0))}
           </div>
+          {m.watchText && <div className="text-[11px]">{t(m.watchMode === "disappears" ? "watchingGone" : "watchingFor", m.watchText)}</div>}
           {(rt?.skippedTyping ?? 0) > 0 && <div className="text-[11px] text-zinc-500">{t("simpleTypingNote")}</div>}
           <div className="h-0.5 bg-zinc-200 dark:bg-zinc-800 rounded overflow-hidden mt-2"><div className="h-full bg-zinc-500 transition-all" style={{ width: `${pct}%` }} /></div>
         </div>
@@ -81,6 +100,17 @@ export function SimpleRefreshPanel({ tab, monitors }: { tab: chrome.tabs.Tab; mo
   return (
     <div className="space-y-3">
       <p className="text-[11px] text-zinc-500">{t("simpleIntro")}</p>
+      <div className="space-y-1">
+        <div className="label">{t("alertWhenOptional")}</div>
+        <div className="flex gap-1">
+          <input className="input flex-1" placeholder={t("watchTextPh")} value={watchText} maxLength={200} spellCheck={false}
+            onChange={(e) => setWatchText(e.target.value)} aria-label={t("alertWhenOptional")} />
+          <select className="input" value={watchMode} onChange={(e) => setWatchMode(e.target.value as "appears" | "disappears")} aria-label={t("watchModeLabel")}>
+            <option value="appears">{t("appears")}</option>
+            <option value="disappears">{t("disappears")}</option>
+          </select>
+        </div>
+      </div>
       <div className="grid grid-cols-4 gap-1">
         {PRESETS.map((s) => (
           <button key={s} onClick={() => start(s)}

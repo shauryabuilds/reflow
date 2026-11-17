@@ -100,7 +100,7 @@ export function SidePanel() {
                   <h2 className="label">{t("modeSimple")} · {simple.length}</h2>
                   {simple.map((m) => (
                     <div key={m.id} className="card p-2.5 flex items-center justify-between gap-2 text-[12px]">
-                      <div className="min-w-0"><div className="truncate">{m.title}</div><div className="text-[11px] text-zinc-500">{t("simpleStatus", String(m.refreshCount ?? 0), String(m.intervalSec))}</div></div>
+                      <div className="min-w-0"><div className="truncate">{m.title}</div><div className="text-[11px] text-zinc-500">{m.pausedReason === "matched" ? <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{m.evidence}</span> : <>{t("simpleStatus", String(m.refreshCount ?? 0), String(m.intervalSec))}{m.watchText ? ` · ${t(m.watchMode === "disappears" ? "watchingGone" : "watchingFor", m.watchText)}` : ""}</>}</div></div>
                       <button className="btn h-7" onClick={() => sendBg({ type: "pw:deleteMonitor", id: m.id })}>{t("stop")}</button>
                     </div>
                   ))}

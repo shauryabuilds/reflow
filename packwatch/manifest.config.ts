@@ -22,7 +22,9 @@ export default defineManifest((env) => ({
   optional_host_permissions: ["<all_urls>"],
   // Dev builds only: the local fixture shop (*.localhost) works without a permission prompt,
   // so automated tests can run. Store builds request each shop's permission at runtime.
-  ...(env.mode !== "production" ? { host_permissions: ["http://localhost/*", "http://*.localhost/*"] } : {}),
+  // PW_TEST_HOSTS="shop.example,other.example" adds real shops to a dev build for live backtests.
+  ...(env.mode !== "production" ? { host_permissions: ["http://localhost/*", "http://*.localhost/*",
+    ...(process.env.PW_TEST_HOSTS ?? "").split(",").filter(Boolean).map((h) => `https://${h.trim()}/*`)] } : {}),
   content_scripts: [
     // Required by ExtensionPay so onPaid / onTrialStarted reach the extension.
     { matches: ["https://extensionpay.com/*"], js: ["src/content/extpay.ts"], run_at: "document_start" },

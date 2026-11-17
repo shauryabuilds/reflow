@@ -52,7 +52,7 @@ async function waitFor(fn, timeoutMs, stepMs = 1000) {
     await shopTab.goto(`http://shop-b.localhost:${PORT}/collections/one-piece`);
     const tabB = await sw.evaluate(async () => (await chrome.tabs.query({ url: "http://shop-b.localhost/*" }))[0].id);
     await popup.goto(`chrome-extension://${extId}/src/popup/index.html?tab=${tabB}`);
-    await popup.getByRole("button", { name: "New listings", exact: true }).click();
+    // Collection pages open straight on the new-listings view.
     await popup.getByPlaceholder("e.g. OP-15, booster box, elite trainer").fill("OP-15");
     await popup.getByRole("button", { name: "Watch for new listings" }).click();
     await popup.getByText("Now watching").waitFor({ timeout: 10_000 });

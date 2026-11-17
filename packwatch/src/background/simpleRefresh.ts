@@ -1,5 +1,5 @@
-// Simple Refresh: the legacy Reflow auto-refresh of one of the user's own tabs. No stock logic,
-// but it keeps the typing guard, scroll memory and the queue guard.
+// Auto refresh (internally "simple"): the Reflow auto-refresh of one of the user's own tabs, with the
+// typing guard, scroll memory, queue guard and an optional page monitor (alert when text appears/disappears).
 import { APP } from "../config/app";
 import type { Monitor, Plan, SimplePref } from "../shared/types";
 import { getLocal, getLocalMany, getSessionTabs, setLocal } from "../shared/storage";
@@ -8,12 +8,28 @@ import { newId } from "../shared/monitor";
 import { detectQueue, type QueueHit } from "../detect/queue";
 import { withLock } from "./lock";
 import { newRuntime } from "./scheduler";
-import { bindTab, hasHostPermission, injectGuard, probe, tabExists, unbindTab } from "./tabs";
+import { bindTab, findText, hasHostPermission, injectGuard, nextLoad, probe, tabExists, unbindTab } from "./tabs";
 import { dispatchAlert } from "./alerts";
 import type { PendingAlert } from "./process";
 import { ensureOffscreen } from "./offscreenHost";
+import { getPlan } from "../shared/entitlements";
 
-type Outcome = { kind: "refreshed" } | { kind: "skipped" } | { kind: "gone" } | { kind: "queue"; hit: QueueHit };
+type Outcome =
+  | { kind: "refreshed"; found?: boolean | null; at?: number }
+  | { kind: "skipped" } | { kind: "gone" } | { kind: "queue"; hit: QueueHit };
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Page monitor decision. "appears" fires on the first sighting; "disappears" needs two misses in a row,
+ * so a page that hasn't finished rendering never causes a false alert.
+ */
+export function textDecision(mode: "appears" | "disappears", found: boolean | null | undefined, misses = 0): { hit: boolean; misses: number } {
+  if (found === null || found === undefined) return { hit: false, misses };
+  if (mode === "appears") return { hit: found, misses: 0 };
+  const m = found ? 0 : misses + 1;
+  return { hit: m >= 2, misses: m };
+}
 
 export const DEFAULT_SIMPLE: SimplePref = { intervalSec: 30, randomize: false, hardRefresh: true, keepScroll: true };
 
@@ -38,6 +54,7 @@ export async function startSimple(tabId: number, url: string, title: string, pre
     intervalSec: Math.max(APP.SIMPLE_MIN_SEC, Math.round(pref.intervalSec)), priority: "normal",
     state: "unknown", stableState: "unknown", consecutiveErrors: 0, createdAt: now,
     randomize: pref.randomize, hardRefresh: pref.hardRefresh, keepScroll: pref.keepScroll, refreshCount: 0,
+    ...(pref.watchText?.trim() ? { watchText: pref.watchText.trim().slice(0, 200), watchMode: pref.watchMode === "disappears" ? "disappears" as const : "appears" as const } : {}),
   };
   await withLock(async () => {
     const s = await getLocalMany(["pw.monitors", "pw.runtime", "pw.simplePrefs"]);
@@ -48,7 +65,14 @@ export async function startSimple(tabId: number, url: string, title: string, pre
   });
   await bindTab(m.id, tabId);
   await chrome.tabs.update(tabId, { autoDiscardable: false }).catch(() => {});
-  if (await hasHostPermission(url)) await injectGuard(tabId);
+  if (await hasHostPermission(url)) {
+    await injectGuard(tabId);
+    // The text may already be on the page: check right away instead of waiting a full interval.
+    if (m.watchText) {
+      const found = await findText(tabId, m.watchText, true);
+      await finishText(m.id, found, await getPlan());
+    }
+  }
   await ensureOffscreen();
   return m;
 }
@@ -89,9 +113,60 @@ export async function runSimple(m: Monitor, plan: Plan): Promise<void> {
     const q = p ? detectQueue(p.html, p.url) : null;
     if (q) return finish(m.id, { kind: "queue", hit: q }, plan);
   }
+  const loaded = m.watchText ? nextLoad(tabId, 30_000) : null;
+  const at = Date.now();
   try { await chrome.tabs.reload(tabId, { bypassCache: m.hardRefresh !== false }); }
   catch { return finish(m.id, { kind: "gone" }, plan); }
-  return finish(m.id, { kind: "refreshed" }, plan);
+  let found: boolean | null = null;
+  if (m.watchText && loaded && (await loaded)) {
+    await sleep(1500); // let client-side rendering settle
+    found = await findText(tabId, m.watchText, true);
+  }
+  return finish(m.id, { kind: "refreshed", found, at }, plan);
+}
+
+/** Applies a page-monitor result; on a hit, stops refreshing and alerts. */
+async function finishText(id: string, found: boolean | null, plan: Plan): Promise<void> {
+  const alert = await withLock(async () => {
+    const s = await getLocalMany(["pw.monitors", "pw.runtime"]);
+    const m = s["pw.monitors"][id];
+    if (!m?.watchText) return null;
+    const rt = s["pw.runtime"][id] ?? newRuntime(Date.now());
+    const d = textDecision(m.watchMode ?? "appears", found, rt.textMisses);
+    rt.textMisses = d.misses;
+    let a: PendingAlert | null = null;
+    if (d.hit) {
+      m.state = "paused"; m.pausedReason = "matched";
+      m.evidence = m.watchMode === "disappears" ? `“${m.watchText}” is gone` : `Found “${m.watchText}”`;
+      rt.nextCheckAt = Number.MAX_SAFE_INTEGER;
+      a = { event: "text-match", monitorId: id, title: m.title, url: m.url, shopDomain: m.shopDomain,
+        evidence: m.evidence, priority: "normal", products: [{ id: m.watchMode ?? "appears", title: m.watchText, url: m.url }] };
+    }
+    s["pw.monitors"][id] = m;
+    s["pw.runtime"][id] = rt;
+    await setLocal({ "pw.monitors": s["pw.monitors"], "pw.runtime": s["pw.runtime"] });
+    return a;
+  });
+  if (alert) await dispatchAlert(alert, plan);
+}
+
+/** Stop the alert part but keep refreshing (popup "Keep refreshing" after a match). */
+export async function clearTextWatch(tabId: number): Promise<void> {
+  const m = await simpleMonitorForTab(tabId);
+  if (!m) return;
+  await withLock(async () => {
+    const s = await getLocalMany(["pw.monitors", "pw.runtime"]);
+    const x = s["pw.monitors"][m.id];
+    if (!x) return;
+    delete x.watchText; delete x.watchMode; delete x.pausedReason;
+    x.state = "unknown"; x.evidence = undefined;
+    const rt = s["pw.runtime"][m.id] ?? newRuntime(Date.now());
+    rt.nextCheckAt = Date.now() + nextSimpleDelayMs(x);
+    rt.textMisses = 0;
+    s["pw.monitors"][m.id] = x;
+    s["pw.runtime"][m.id] = rt;
+    await setLocal({ "pw.monitors": s["pw.monitors"], "pw.runtime": s["pw.runtime"] });
+  });
 }
 
 async function finish(id: string, o: Outcome, plan: Plan) {
@@ -115,7 +190,8 @@ async function finish(id: string, o: Outcome, plan: Plan) {
       m.refreshCount = (m.refreshCount ?? 0) + 1;
       m.lastCheckedAt = now;
       rt.lastSuccessAt = now;
-      rt.nextCheckAt = now + nextSimpleDelayMs(m);
+      // The interval runs from the refresh itself, not from after the page check finished.
+      rt.nextCheckAt = Math.max(now + 1000, (o.at ?? now) + nextSimpleDelayMs(m));
     }
     s["pw.monitors"][id] = m;
     s["pw.runtime"][id] = rt;
@@ -123,6 +199,7 @@ async function finish(id: string, o: Outcome, plan: Plan) {
     return a;
   });
   if (alert) await dispatchAlert(alert, plan);
+  if (o.kind === "refreshed" && o.found !== undefined && o.found !== null) await finishText(id, o.found, plan);
 }
 
 /** Per-tab badge countdown on Simple Refresh tabs (the global badge is for monitors). */
@@ -134,8 +211,8 @@ export async function simpleCountdowns(monitors: Record<string, Monitor>, runtim
     const tabId = tabs[m.id];
     if (tabId === undefined) continue;
     const left = Math.max(0, Math.ceil(((runtime[m.id]?.nextCheckAt ?? now) - now) / 1000));
-    const text = m.state === "queue" ? "Q" : m.state === "paused" ? "II" : left >= 3600 ? `${Math.floor(left / 3600)}h` : left >= 60 ? `${Math.floor(left / 60)}m` : String(left);
+    const text = m.state === "queue" ? "Q" : m.pausedReason === "matched" ? "✓" : m.state === "paused" ? "II" : left >= 3600 ? `${Math.floor(left / 3600)}h` : left >= 60 ? `${Math.floor(left / 60)}m` : String(left);
     chrome.action.setBadgeText({ tabId, text }).catch(() => {});
-    chrome.action.setBadgeBackgroundColor({ tabId, color: m.state === "queue" ? "#b45309" : "#18181b" }).catch(() => {});
+    chrome.action.setBadgeBackgroundColor({ tabId, color: m.state === "queue" ? "#b45309" : m.pausedReason === "matched" ? "#059669" : "#18181b" }).catch(() => {});
   }
 }

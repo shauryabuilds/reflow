@@ -68,7 +68,7 @@ export interface Monitor {
   boost?: BoostWindow;
   state: StockState;
   stableState: StableState;
-  pausedReason?: "user" | "plan" | "queue";
+  pausedReason?: "user" | "plan" | "queue" | "matched";
   evidence?: string;
   lastPrice?: Money;
   lastCheckedAt?: number;
@@ -80,6 +80,9 @@ export interface Monitor {
   hardRefresh?: boolean;
   keepScroll?: boolean;
   refreshCount?: number;
+  /** Auto refresh page monitor: alert when this text appears / disappears. */
+  watchText?: string;
+  watchMode?: "appears" | "disappears";
 }
 
 /** Scheduler bookkeeping kept apart from the monitor so UI edits never race it. */
@@ -95,6 +98,7 @@ export interface MonitorRuntime {
   tabReloads?: number;
   backingOff?: boolean;
   skippedTyping?: number;
+  textMisses?: number;
 }
 
 export interface DomainState {
@@ -127,7 +131,7 @@ export interface HistoryEvent {
   latencyMs?: number;
 }
 
-export type AlertEvent = "restock" | "preorder" | "price-drop" | "new-listing" | "queue" | "stall" | "test";
+export type AlertEvent = "restock" | "preorder" | "price-drop" | "new-listing" | "text-match" | "queue" | "stall" | "test";
 
 export interface AlertRecord {
   id: string;
@@ -195,6 +199,8 @@ export interface SimplePref {
   randomize: boolean;
   hardRefresh: boolean;
   keepScroll: boolean;
+  watchText?: string;
+  watchMode?: "appears" | "disappears";
 }
 
 export interface CheckResult {

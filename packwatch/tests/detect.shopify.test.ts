@@ -23,6 +23,12 @@ describe("Shopify product .js", () => {
     expect(detectShopifyProduct(j, { variantId: "21", currencyHint: "USD" })).toMatchObject({ state: "out", variantTitle: "English" });
     expect(detectShopifyProduct(j, { variantId: "22", currencyHint: "USD" })).toMatchObject({ state: "in", variantTitle: "Japanese", price: { amount: 139, currency: "USD" } });
   });
+  it("an unreleased preorder (available=false, price 0.00) is out of stock with no price", () => {
+    const r = detectShopifyProduct({ title: "One Piece Card Game - Premium Card Collection (Pre-Order)", tags: ["Pre-Order", "Sealed Product"],
+      variants: [{ id: 1, title: "Default Title", available: false, price: "0.00" }] }, { currencyHint: "CAD" });
+    expect(r.state).toBe("out");
+    expect(r.price).toBeUndefined();
+  });
   it("ambiguous response is unknown", () => {
     expect(detectShopifyProduct(fxJson("shopify-product-ambiguous.json")).state).toBe("unknown");
     expect(detectShopifyProduct("nope").state).toBe("unknown");

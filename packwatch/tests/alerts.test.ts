@@ -51,3 +51,28 @@ describe("time helpers", () => {
     expect(fmtDuration(3900)).toBe("1h 5m");
   });
 });
+
+import { textDecision } from "../src/background/simpleRefresh";
+
+describe("Auto refresh page monitor", () => {
+  it("“appears” fires on the first sighting", () => {
+    expect(textDecision("appears", false)).toEqual({ hit: false, misses: 0 });
+    expect(textDecision("appears", true)).toEqual({ hit: true, misses: 0 });
+  });
+  it("“disappears” needs two misses in a row (a half-rendered page never false-alarms)", () => {
+    let d = textDecision("disappears", false, 0);
+    expect(d).toEqual({ hit: false, misses: 1 });
+    d = textDecision("disappears", true, d.misses);
+    expect(d).toEqual({ hit: false, misses: 0 });
+    d = textDecision("disappears", false, textDecision("disappears", false, 0).misses);
+    expect(d.hit).toBe(true);
+  });
+  it("an unreadable page (null) changes nothing", () => {
+    expect(textDecision("appears", null, 1)).toEqual({ hit: false, misses: 1 });
+  });
+  it("alert wording", () => {
+    const base = { monitorId: "m", title: "Concert tickets", url: "https://t.example/e", shopDomain: "t.example", evidence: "", priority: "normal" as const };
+    expect(alertText({ ...base, event: "text-match", products: [{ id: "appears", title: "Tickets available", url: "" }] }).title).toBe("Found “Tickets available”");
+    expect(alertText({ ...base, event: "text-match", products: [{ id: "disappears", title: "Sold out", url: "" }] }).title).toBe("“Sold out” is gone");
+  });
+});

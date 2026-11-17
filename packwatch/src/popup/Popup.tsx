@@ -19,6 +19,7 @@ export function Popup() {
   const ui = useLocal("pw.ui");
   const [tab, setTab] = useState<chrome.tabs.Tab | null>(null);
   const [mode, setMode] = useState<"watch" | "simple">("watch");
+  const [picked, setPicked] = useState(false); // the user chose a tab themselves: never switch it for them
   const [sheet, setSheet] = useState<{ open: boolean; feature?: Feature }>({ open: false });
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function Popup() {
     if (tab?.id !== undefined) {
       chrome.storage.session.get("pw.tabs").then((d) => {
         const map = (d["pw.tabs"] as Record<string, number>) || {};
-        if (Object.entries(map).some(([id, tid]) => tid === tab.id && monitors[id]?.kind === "simple")) setMode("simple");
+        if (!picked && Object.entries(map).some(([id, tid]) => tid === tab.id && monitors[id]?.kind === "simple")) setMode("simple");
       });
     }
   }, [tab?.id, Object.keys(monitors).length]);
@@ -70,10 +71,13 @@ export function Popup() {
             <button className="card w-full p-2.5 text-left text-[12px] border-amber-500/50" onClick={openPanel}>{t("chooseActiveBanner")}</button>
           )}
           <div className="grid grid-cols-2 gap-1 p-0.5 rounded-md bg-zinc-100 dark:bg-zinc-900 text-[12px] font-semibold">
-            <button className={`h-7 rounded ${mode === "watch" ? "bg-white dark:bg-zinc-800 shadow-sm" : "text-zinc-500"}`} onClick={() => setMode("watch")}>{t("modeWatch")}</button>
-            <button className={`h-7 rounded ${mode === "simple" ? "bg-white dark:bg-zinc-800 shadow-sm" : "text-zinc-500"}`} onClick={() => setMode("simple")}>{t("modeSimple")}</button>
+            <button className={`h-7 rounded ${mode === "watch" ? "bg-white dark:bg-zinc-800 shadow-sm" : "text-zinc-500"}`} onClick={() => { setPicked(true); setMode("watch"); }}>{t("modeWatch")}</button>
+            <button className={`h-7 rounded ${mode === "simple" ? "bg-white dark:bg-zinc-800 shadow-sm" : "text-zinc-500"}`} onClick={() => { setPicked(true); setMode("simple"); }}>{t("modeSimple")}</button>
           </div>
-          {tab && mode === "watch" && <PageWatch tab={tab} plan={plan} monitors={monitors} openPanel={openPanel} />}
+          {tab && mode === "watch" && (
+            <PageWatch tab={tab} plan={plan} monitors={monitors} openPanel={openPanel}
+              onUnreadable={() => { if (!picked) setMode("simple"); }} onAutoRefresh={() => { setPicked(true); setMode("simple"); }} />
+          )}
           {tab && mode === "simple" && <SimpleRefreshPanel tab={tab} monitors={monitors} />}
         </main>
         <footer className="px-3 py-2 border-t border-zinc-200 dark:border-zinc-800 space-y-1">

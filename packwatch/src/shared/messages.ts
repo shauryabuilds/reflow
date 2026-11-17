@@ -13,6 +13,7 @@ export type BgMsg =
   | { type: "pw:testAlert" }
   | { type: "pw:simpleStart"; tabId: number; url: string; pref: SimplePref }
   | { type: "pw:simpleStop"; tabId: number }
+  | { type: "pw:simpleKeepRefreshing"; tabId: number }
   | { type: "pw:startPicker"; tabId: number; draft: Draft }
   | { type: "pw:picked"; draftId: string; selector: string; text: string }
   | { type: "pw:refreshPlan" }

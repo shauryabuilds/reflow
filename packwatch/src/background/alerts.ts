@@ -30,6 +30,11 @@ export function alertText(a: PendingAlert): AlertText {
       return (a.products?.length ?? 0) > 1
         ? { title: t("alertListingManyTitle", String(a.products!.length), a.shopDomain), message: a.products!.slice(0, 4).map((p) => p.title).join("\n"), context: ctx }
         : { title: t("alertListingTitle", a.title), message: line, context: ctx };
+    case "text-match": {
+      const text = a.products?.[0]?.title ?? "";
+      const gone = a.products?.[0]?.id === "disappears";
+      return { title: gone ? t("alertTextGone", text) : t("alertTextFound", text), message: [a.title, a.shopDomain].filter(Boolean).join(" · "), context: t("alertTextContext") };
+    }
     case "queue":
       return /queue|waiting|line/i.test(a.evidence)
         ? { title: t("alertQueueTitle", a.shopDomain), message: t("alertQueueBody"), context: a.title }
@@ -39,7 +44,7 @@ export function alertText(a: PendingAlert): AlertText {
   }
 }
 
-const BUY_EVENTS = new Set(["restock", "preorder", "new-listing", "price-drop"]);
+const BUY_EVENTS = new Set(["restock", "preorder", "new-listing", "price-drop", "text-match"]);
 
 async function chromeFocused(): Promise<boolean> {
   try { return !!(await chrome.windows.getLastFocused()).focused; } catch { return false; }

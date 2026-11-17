@@ -96,3 +96,45 @@ export async function readPage(tabId: number): Promise<{ html: string; url: stri
     return (r?.result as { html: string; url: string }) ?? null;
   } catch { return null; }
 }
+
+/**
+ * Page monitor: is `text` on the page right now? Case- and accent-insensitive, visible text only.
+ * On a hit it highlights every occurrence and scrolls to the first one.
+ */
+export async function findText(tabId: number, text: string, highlight: boolean): Promise<boolean | null> {
+  try {
+    const [r] = await chrome.scripting.executeScript({
+      target: { tabId },
+      args: [text, highlight],
+      func: (needle: string, mark: boolean) => {
+        const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+        const n = norm(needle.trim());
+        if (!n || !document.body) return false;
+        const found = norm(document.body.innerText).includes(n);
+        if (found && mark && "highlights" in CSS) {
+          const ranges: Range[] = [];
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+          for (let node; (node = walker.nextNode() as Text | null) && ranges.length < 200;) {
+            const hay = norm(node.data);
+            for (let i = hay.indexOf(n); i !== -1; i = hay.indexOf(n, i + n.length)) {
+              if (i + n.length > node.data.length) break;
+              const rg = new Range(); rg.setStart(node, i); rg.setEnd(node, i + n.length); ranges.push(rg);
+            }
+          }
+          if (ranges.length) {
+            (CSS as unknown as { highlights: Map<string, unknown> }).highlights.set("packwatch", new (window as unknown as { Highlight: new (...r: Range[]) => unknown }).Highlight(...ranges));
+            if (!document.getElementById("packwatch-hl")) {
+              const st = document.createElement("style");
+              st.id = "packwatch-hl";
+              st.textContent = "::highlight(packwatch){background:#facc15;color:#000}";
+              document.head.appendChild(st);
+            }
+            ranges[0].startContainer.parentElement?.scrollIntoView({ block: "center", behavior: "smooth" });
+          }
+        }
+        return found;
+      },
+    });
+    return (r?.result as boolean) ?? null;
+  } catch { return null; }
+}

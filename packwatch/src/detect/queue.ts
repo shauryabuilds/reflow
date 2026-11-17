@@ -8,6 +8,7 @@ const QUEUE_URL = /(^|\.)queue-it\.net|\/queue\b|waitingroom|waiting-room/i;
 const QUEUE_MARKUP = /static\.queue-it\.net|queueit|data-queueit|queue-it_/i;
 const CHALLENGE = [
   { re: /<title>\s*just a moment\.{0,3}\s*<\/title>/i, ev: "Cloudflare “Just a moment” page" },
+  { re: /<title>\s*verifying (your connection|you are human)\.{0,3}\s*<\/title>/i, ev: "“Verifying your connection” bot check" },
   { re: /cf-chl-|challenge-platform|cf_chl_opt|cdn-cgi\/challenge/i, ev: "Cloudflare challenge markup" },
   { re: /checking (if the site connection is secure|your browser)|verify you are human/i, ev: "Bot check text" },
   { re: /px-captcha|perimeterx|_pxCaptcha/i, ev: "PerimeterX challenge" },

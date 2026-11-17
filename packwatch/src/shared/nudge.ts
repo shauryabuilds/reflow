@@ -2,7 +2,7 @@
 import { APP } from "../config/app";
 import type { AlertRecord, Plan, UiState } from "./types";
 
-const NUDGE_EVENTS = new Set(["restock", "preorder", "new-listing"]);
+const NUDGE_EVENTS = new Set(["restock", "preorder", "new-listing", "text-match"]);
 const DAY = 86_400_000;
 
 export function pickNudge(alerts: AlertRecord[], ui: UiState, plan: Plan, now: number): AlertRecord | null {
